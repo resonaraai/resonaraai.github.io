@@ -1,0 +1,7 @@
+baseURL = "https://resonara.ai.github.io/"
+languageCode = "de-DE"
+title = "resonara"
+
+[params]
+  author = "Jacqueline Dumdei"
+  description = "Resonara AI"
