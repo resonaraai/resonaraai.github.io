@@ -1,193 +1,26 @@
 {{ define "main" }}
-  <section class="hero">
-    <div class="container hero-inner">
-      <div class="hero-copy">
-        <p class="eyebrow">Empathische KI für deinen Alltag</p>
-        <h1>Resonara – revolutionäre empathische KI</h1>
-        <p class="lead">
-          Wenn Überforderung, Grübeln oder People‑Pleasing dich auslaugen: Resonara begleitet dich
-          <strong>direkt in WhatsApp</strong> – 24/7, alltagsnah und psychologisch fundiert.
-        </p>
-        <div class="cta-row">
-          <a class="btn primary" href="{{ site.Params.ctaPrimaryHref }}">{{ site.Params.ctaPrimaryLabel }}</a>
-          <a class="btn ghost" href="{{ site.Params.ctaSecondaryHref }}">{{ site.Params.ctaSecondaryLabel }}</a>
-        </div>
-        <ul class="hero-bullets" role="list">
-          <li><strong>Sofort erreichbar</strong> statt Wochen warten</li>
-          <li><strong>Text oder Sprache</strong> – wie es dir leichter fällt</li>
-          <li><strong>Mehr Klarheit</strong> über Gefühle, Bedürfnisse & Grenzen</li>
-        </ul>
-      </div>
-
-      <div class="hero-visual" aria-hidden="true">
-        <div class="logo-card">
-          <img class="logo" src="{{ "images/resonara.png" | relURL }}" alt="" />
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section id="problem" class="section">
-    <div class="container">
-      <h2>Warum Resonara?</h2>
-      <div class="grid-2">
-        <div class="card">
-          <h3>Das Problem</h3>
-          <p>
-            Viele Menschen erleben Anspannung, Overthinking, emotionales Essen oder das Gefühl,
-            ständig funktionieren zu müssen. Klassische Hilfe ist oft schwer erreichbar:
-            lange Wartezeiten, Termindruck oder unpassende Standard‑Apps.
-          </p>
-        </div>
-        <div class="card">
-          <h3>Die Lösung</h3>
-          <p>
-            Resonara verbindet <strong>emotionale Intelligenz</strong> mit
-            <strong>wissenschaftlich fundierten Coaching‑Methoden</strong> – niedrigschwellig,
-            direkt im Messenger. Du bekommst unmittelbare Unterstützung, um dich zu regulieren,
-            zu sortieren und wieder handlungsfähig zu werden.
-          </p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section id="funktion" class="section alt">
-    <div class="container">
-      <h2>So funktioniert’s</h2>
-      <div class="steps">
-        <div class="step">
-          <div class="step-num">1</div>
-          <div class="step-body">
-            <h3>Schreiben oder sprechen</h3>
-            <p>Du meldest dich in WhatsApp und teilst, was gerade los ist – per Text oder Sprachnachricht.</p>
-          </div>
-        </div>
-        <div class="step">
-          <div class="step-num">2</div>
-          <div class="step-body">
-            <h3>Emotionen erkennen & spiegeln</h3>
-            <p>
-              Resonara reagiert nicht nur auf Worte, sondern erfasst das Gefühl dahinter und stellt gezielte Fragen.
-              So entsteht Klarheit – ohne dich zu überfordern.
-            </p>
-          </div>
-        </div>
-        <div class="step">
-          <div class="step-num">3</div>
-          <div class="step-body">
-            <h3>Konkrete Impulse für deinen Alltag</h3>
-            <p>
-              Du bekommst kleine, passende Interventionen: Entschleunigen, Grenzen setzen, Selbstschutz,
-              Fokus – damit sich dein Nervensystem wieder beruhigt.
-            </p>
-          </div>
-        </div>
-      </div>
-
-      <div class="callout">
-        <div class="callout-title">Sicherheitsnetz inklusive</div>
-        <div class="callout-body">
-          Bei Anzeichen starker negativer Zustände erkennt Resonara, wenn persönliche Begleitung sinnvoll ist,
-          damit automatisierte Unterstützung verantwortungsvoll ergänzt werden kann.
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section id="features" class="section">
-    <div class="container">
-      <h2>Was Resonara besonders macht</h2>
-      <div class="feature-grid">
-        <div class="feature">
-          <h3>Messenger‑first</h3>
-          <p>Kein App‑Zwang. Unterstützung dort, wo du ohnehin bist – schnell und vertraut.</p>
-        </div>
-        <div class="feature">
-          <h3>Emotionale Präzision</h3>
-          <p>Fokus auf feine Emotionsmerkmale und stimmige Tonalität – nicht nur „Antworten“, sondern „Resonanz“.</p>
-        </div>
-        <div class="feature">
-          <h3>Psychologische Tiefe</h3>
-          <p>Resonara arbeitet mit fundierten Begleitmodellen, die auf nachhaltige Selbstregulation zielen.</p>
-        </div>
-        <div class="feature">
-          <h3>Guardrails & Selbstevaluation</h3>
-          <p>Sicherheitsmechanismen zur Reduktion von Halluzinationen und Verzerrungen – für konsistente Qualität.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section id="preis" class="section alt">
-    <div class="container">
-      <h2>Preis</h2>
-      <div class="pricing">
-        <div class="price-card">
-          <div class="price-top">
-            <div class="price-plan">Resonara Zugang</div>
-            <div class="price-amount">{{ site.Params.priceLabel }}</div>
-            <div class="price-note">{{ site.Params.priceNote }}</div>
-          </div>
-          <ul class="price-list" role="list">
-            <li>24/7 Begleitung per WhatsApp</li>
-            <li>Text & Sprache</li>
-            <li>Impuls‑ und Reflexionsfragen</li>
-            <li>Alltagsnahe Selbstregulation</li>
-          </ul>
-          <a class="btn primary" href="#kontakt">Interesse anmelden</a>
-        </div>
-        <div class="card subtle">
-          <h3>Für wen ist Resonara?</h3>
-          <p>
-            Für Menschen zwischen 25–55, die bereit sind in sich zu investieren und sich
-            mehr innere Ruhe, Orientierung und Selbstschutz wünschen – ohne Terminstress.
-          </p>
-          <p class="small muted">
-            Hinweis: Resonara ist kein Ersatz für medizinische oder psychotherapeutische Behandlung.
-          </p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section id="kontakt" class="section">
-    <div class="container">
-      <h2>Kontakt & Updates</h2>
-      <div class="grid-2">
-        <div class="card">
-          <h3>Verbinde dich</h3>
-          <p>Folge Jacqueline Dumdei und Resonara für Updates, Launch‑Infos und Einblicke.</p>
-          <div class="link-row">
-            <a class="btn ghost" href="{{ site.Params.linkedinHref }}" rel="me noopener noreferrer" target="_blank">LinkedIn</a>
-            <a class="btn ghost" href="{{ site.Params.instagramHref }}" rel="me noopener noreferrer" target="_blank">Instagram</a>
-          </div>
-        </div>
-        <div class="card">
-          <h3>Warteliste</h3>
-          <p>Trag dich ein und erhalte als Erste:r Launch‑Infos und Updates.</p>
-          <div class="link-row">
-            <a class="btn primary" href="{{ site.Params.ctaPrimaryHref }}" rel="noopener noreferrer" target="_blank">{{ site.Params.ctaPrimaryLabel }}</a>
-          </div>
-          <p class="small muted">Du wirst zur Google‑Formular‑Warteliste weitergeleitet.</p>
-        </div>
-      </div>
-
-      <div class="grid-2" style="margin-top:16px">
-        <div class="card">
-          <h3>Datenschutz & Vertrauen</h3>
-          <p>
-            Datenschutz ist zentral: Datenverarbeitung wird DSGVO‑konform gedacht (Privacy by Design).
-            Kommunikation erfolgt über die offizielle WhatsApp Business API.
-          </p>
-          <p class="small muted">
-            (Rechtstexte wie Impressum/Datenschutz können wir als nächste Seite ergänzen, sobald Inhalte final sind.)
-          </p>
-        </div>
-        <div class="card subtle">
-          <h3>Direkt starten</h3>
-          <p class="muted">Sobald Resonara live ist, führen wir dich hier in wenigen Schritten zum WhatsApp‑Onboarding.</p>
-        </div>
+  <section class="hero" style="min-height: 80vh; display: grid; place-items: center; text-align: center; position: relative; overflow: hidden;">
+    <img
+      src="{{ "images/resonara.png" | relURL }}"
+      alt=""
+      aria-hidden="true"
+      style="position: absolute; inset: 50% auto auto 50%; transform: translate(-50%, -50%); width: min(85vw, 980px); opacity: 0.11; pointer-events: none;"
+    />
+    <div class="container" style="max-width: 760px; position: relative; z-index: 1;">
+      <p class="eyebrow">Hier entsteht Resonara</p>
+      <h1>Wir bauen etwas Besonderes.</h1>
+      <p class="lead">
+        Seid die ersten, die die empathische KI erleben können.
+      </p>
+      <div class="cta-row" style="justify-content: center;">
+        <a
+          class="btn primary"
+          href="https://forms.gle/1F6XoXEVQ4M9Sxud9"
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          Zur Warteliste
+        </a>
       </div>
     </div>
   </section>

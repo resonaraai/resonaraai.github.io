@@ -9,8 +9,8 @@ enableRobotsTXT = true
 
 [params]
   author = "Jacqueline Dumdei"
-  tagline = "Revolutionäre empathische KI – direkt in WhatsApp."
-  description = "Resonara ist ein empathischer KI‑Coach für Menschen, die emotional überfordert sind, viel grübeln oder ständig funktionieren müssen. 24/7 per WhatsApp – psychologisch fundiert, alltagsnah und sicher."
+  tagline = "Hier entsteht Resonara; geduldet euch noch."
+  description = "Hier entsteht Resonara; geduldet euch noch."
   ctaPrimaryLabel = "Zur Warteliste"
   ctaPrimaryHref = "https://forms.gle/ZwfA675K85qbpXUXA"
   ctaSecondaryLabel = "So funktioniert’s"
@@ -19,8 +19,6 @@ enableRobotsTXT = true
   priceLabel = "19,99 € / Monat"
   priceNote = "Optional mit Testphase und modularen Zusatzangeboten."
 
-  linkedinHref = "https://de.linkedin.com/in/jacqueline-dumdei-soulmatesai"
-  instagramHref = "https://www.instagram.com/jacquelinedumdei/"
 
 [module]
   [[module.mounts]]

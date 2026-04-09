@@ -1,22 +1,8 @@
 <header class="site-header">
   <div class="container header-inner">
     <a class="brand" href="{{ "/" | relURL }}" aria-label="Resonara Startseite">
-      <span class="brand-mark" aria-hidden="true">R</span>
+      <img src="{{ "images/resonara.png" | relURL }}" alt="Resonara Logo" style="width: 28px; height: 28px; object-fit: contain;" />
       <span class="brand-text">Resonara</span>
     </a>
-
-    <nav class="nav" aria-label="Hauptnavigation">
-      <a href="#problem">Problem</a>
-      <a href="#funktion">Funktion</a>
-      <a href="#features">Features</a>
-      <a href="#preis">Preis</a>
-      <a href="#kontakt">Kontakt</a>
-      <a class="nav-icon" href="{{ site.Params.linkedinHref }}" rel="me noopener noreferrer" target="_blank" aria-label="LinkedIn">
-        LinkedIn
-      </a>
-      <a class="nav-icon" href="{{ site.Params.instagramHref }}" rel="me noopener noreferrer" target="_blank" aria-label="Instagram">
-        Instagram
-      </a>
-    </nav>
   </div>
 </header>
