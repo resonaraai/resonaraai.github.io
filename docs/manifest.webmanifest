@@ -1,69 +1,35 @@
 {
   "name": "Resonara",
   "short_name": "Resonara",
-  "description": "Resonara PWA-first KI-Selbstregulationscoach im offiziellen Resonara Look mit lokalem Audio-Server.",
-  "start_url": "./#coach",
+  "description": "Resonara begleitet dich mit klar gekennzeichneter KI durch kurze \u00dcbungen zur emotionalen Selbstregulation.",
+  "start_url": "./",
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait-primary",
   "background_color": "#0b0c10",
   "theme_color": "#0f1220",
-  "categories": [
-    "health",
-    "productivity",
-    "lifestyle"
-  ],
+  "categories": ["health", "productivity", "lifestyle"],
   "lang": "de",
   "icons": [
-    {
-      "src": "./assets/icon-192.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "./assets/icon-512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "./assets/resonara-logo.png",
-      "sizes": "256x210",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "./assets/resonara-mark.svg",
-      "sizes": "any",
-      "type": "image/svg+xml",
-      "purpose": "any"
-    }
+    { "src": "./assets/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "./assets/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" },
+    { "src": "./assets/resonara-logo.png", "sizes": "256x210", "type": "image/png", "purpose": "any" },
+    { "src": "./assets/resonara-mark.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
   ],
   "shortcuts": [
     {
-      "name": "Coach starten",
-      "short_name": "Coach",
-      "description": "Neue Resonara Session oeffnen",
-      "url": "./#coach",
-      "icons": [
-        {
-          "src": "./assets/icon-192.png",
-          "sizes": "192x192"
-        }
-      ]
+      "name": "Resonara starten",
+      "short_name": "Starten",
+      "description": "Neue gef\u00fchrte Resonara Session \u00f6ffnen",
+      "url": "./",
+      "icons": [{ "src": "./assets/icon-192.png", "sizes": "192x192" }]
     },
     {
-      "name": "Offline-Uebungen",
-      "short_name": "Uebungen",
-      "description": "Selbstregulationsuebungen ohne Server",
-      "url": "./#exercises",
-      "icons": [
-        {
-          "src": "./assets/icon-192.png",
-          "sizes": "192x192"
-        }
-      ]
+      "name": "\u00dcbung starten",
+      "short_name": "\u00dcbung",
+      "description": "Kurze Selbstregulations\u00fcbung \u00f6ffnen",
+      "url": "./#uebung",
+      "icons": [{ "src": "./assets/icon-192.png", "sizes": "192x192" }]
     }
   ],
   "screenshots": [

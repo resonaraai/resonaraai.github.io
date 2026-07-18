@@ -124,7 +124,7 @@ rate_limit: Dict[str, Deque[float]] = defaultdict(deque)
 app = FastAPI(
     title="Resonara Local Audio Server",
     version="0.2.0",
-    description="Minimal local STT and TTS server for the Resonara GitHub Pages PWA. Legacy LLM endpoints are optional.",
+    description="Minimal local STT and TTS server for the Resonara GitHub Pages Web-App. Legacy LLM endpoints are optional.",
 )
 
 app.add_middleware(
@@ -238,7 +238,7 @@ async def stt_endpoint(
 @app.post("/api/llm")
 async def llm_endpoint(body: LlmRequest, _: None = Depends(require_access)) -> Dict[str, Any]:
     if not settings.enable_legacy_llm:
-        raise HTTPException(status_code=501, detail="Legacy LLM endpoint is disabled. Use browser-first PWA logic plus /api/transcribe and /api/speak.")
+        raise HTTPException(status_code=501, detail="Legacy LLM endpoint is disabled. Use browser-first Web-App logic plus /api/transcribe and /api/speak.")
     reply = await asyncio.to_thread(
         call_ollama,
         body.prompt,
@@ -342,7 +342,7 @@ def generate_reply(user_text: str, history: List[Dict[str, str]]) -> tuple[str, 
     if looks_like_crisis(user_text):
         return CRISIS_REPLY, "crisis"
     if not settings.enable_legacy_llm:
-        raise HTTPException(status_code=501, detail="Legacy LLM turn endpoint is disabled. Use /api/transcribe and let the PWA decide.")
+        raise HTTPException(status_code=501, detail="Legacy LLM turn endpoint is disabled. Use /api/transcribe and let the Web-App decide.")
 
     prompt = build_prompt(user_text, history)
     reply = call_ollama(prompt).strip()

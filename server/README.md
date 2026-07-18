@@ -1,11 +1,11 @@
 # Resonara Local Audio Server
 
-FastAPI server fuer die PWA-first Resonara App. Der Standardmodus ist bewusst klein:
+FastAPI server für die Web-App-first Resonara App. Der Standardmodus ist bewusst klein:
 
 1. `/api/transcribe`: Audio rein, Text raus. Nutzt `ffmpeg` und `whisper.cpp`.
 2. `/api/speak`: Text rein, WAV-Audio raus. Nutzt `Piper`.
 
-Die Coach-Logik, Uebungsauswahl, Check-in-Daten, Session-Verlauf, Summary und Krisen-Vorpruefung laufen im Browser. Dadurch wird nur das an deinen Linux-Rechner geschickt, was fuer Audio noetig ist.
+Die Coach-Logik, Übungsauswahl, Check-in-Daten, Session-Verlauf, Summary und Krisen-Vorpruefung laufen im Browser. Dadurch wird nur das an deinen Linux-Rechner geschickt, was für Audio nötig ist.
 
 ## Schnellstart
 
@@ -27,8 +27,8 @@ Siehe `.env.example`.
 
 Wichtig:
 
-- `SERVER_API_TOKEN`: Shared Secret fuer die PWA. Bei Funnel unbedingt setzen.
-- `CORS_ORIGINS`: Fuer Tests `*`, spaeter deine GitHub-Pages-Origin.
+- `SERVER_API_TOKEN`: Shared Secret für die Web-App. Bei Funnel unbedingt setzen.
+- `CORS_ORIGINS`: Für Tests `*`, spaeter deine GitHub-Pages-Origin.
 - `WHISPER_CPP_BIN`: Pfad zu `whisper-cli`.
 - `WHISPER_MODEL`: Pfad zum ggml Whisper-Modell.
 - `PIPER_MODEL`: Pfad zur Piper `.onnx` Stimme.
@@ -86,7 +86,7 @@ Antwort:
 
 ### Legacy: POST `/api/turn` und `/api/text-turn`
 
-Diese Endpunkte bleiben fuer Experimente erhalten, sind aber nicht der Standard. Sie senden Nutzertext bzw. kurzen Verlauf an Ollama und brauchen `ENABLE_LEGACY_LLM=true`.
+Diese Endpunkte bleiben für Experimente erhalten, sind aber nicht der Standard. Sie senden Nutzertext bzw. kurzen Verlauf an Ollama und brauchen `ENABLE_LEGACY_LLM=true`.
 
 ## Funnel
 
@@ -94,4 +94,4 @@ Diese Endpunkte bleiben fuer Experimente erhalten, sind aber nicht der Standard.
 ./scripts/enable_funnel.sh
 ```
 
-Danach die HTTPS-URL aus `tailscale funnel status` in der PWA eintragen.
+Danach die HTTPS-URL aus `tailscale funnel status` in der Web-App eintragen.

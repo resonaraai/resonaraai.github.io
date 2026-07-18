@@ -41,7 +41,7 @@ for (const asset of ['./index.html', './styles.css', './app.js', './manifest.web
 }
 
 for (const endpoint of ['/api/transcribe', '/api/speak']) {
-  assert(app.includes(endpoint), `PWA-first endpoint missing: ${endpoint}`);
+  assert(app.includes(endpoint), `Web-App-first endpoint missing: ${endpoint}`);
 }
 assert(app.includes('legacy-server-turn'), 'Legacy mode option missing');
 assert(app.includes('crisisPatterns'), 'Browser safety path missing');
@@ -52,7 +52,7 @@ const missingIds = selectedIds.filter((id) => !html.includes(`id="${id}"`));
 assert(missingIds.length === 0, `HTML missing IDs used by app.js: ${missingIds.join(', ')}`);
 
 
-console.log('PWA validation passed.');
+console.log('Web-App validation passed.');
 
 function readFile(file) {
   return readFileSync(resolve(root, file), 'utf8');

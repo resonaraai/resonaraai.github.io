@@ -1,4 +1,4 @@
-const CACHE_NAME = 'resonara-pwa-v5-official-brand';
+const CACHE_NAME = 'resonara-guided-v1';
 const APP_SHELL = [
   './',
   './index.html',

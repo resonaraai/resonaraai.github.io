@@ -54,6 +54,6 @@ Setup complete.
 Start the audio server with:
   ./scripts/run_server.sh
 
-Ollama is optional now. The Resonara PWA-first mode only needs /api/transcribe and /api/speak.
+Ollama is optional now. The Resonara Web-App-first mode only needs /api/transcribe and /api/speak.
 To enable legacy server-generated replies later, install Ollama, pull a model, and set ENABLE_LEGACY_LLM=true.
 MSG

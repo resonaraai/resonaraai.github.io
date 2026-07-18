@@ -5,9 +5,9 @@ Wants=network-online.target
 
 [Service]
 Type=simple
-WorkingDirectory=/opt/resonara-pwa/server
-EnvironmentFile=/opt/resonara-pwa/server/.env
-ExecStart=/opt/resonara-pwa/server/.venv/bin/uvicorn app:app --host 127.0.0.1 --port 8787 --proxy-headers
+WorkingDirectory=/opt/resonara-web-app/server
+EnvironmentFile=/opt/resonara-web-app/server/.env
+ExecStart=/opt/resonara-web-app/server/.venv/bin/uvicorn app:app --host 127.0.0.1 --port 8787 --proxy-headers
 Restart=on-failure
 RestartSec=5
 User=resonara
