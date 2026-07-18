@@ -1,0 +1,22 @@
+[Unit]
+Description=Resonara local audio server
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/resonara-pwa/server
+EnvironmentFile=/opt/resonara-pwa/server/.env
+ExecStart=/opt/resonara-pwa/server/.venv/bin/uvicorn app:app --host 127.0.0.1 --port 8787 --proxy-headers
+Restart=on-failure
+RestartSec=5
+User=resonara
+Group=resonara
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+ProtectHome=true
+ReadWritePaths=/tmp
+
+[Install]
+WantedBy=multi-user.target

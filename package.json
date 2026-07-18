@@ -1,0 +1,10 @@
+{
+  "name": "resonara-pwa",
+  "version": "0.3.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --check docs/app.js && node scripts/validate_pwa.mjs"
+  },
+  "devDependencies": {}
+}
