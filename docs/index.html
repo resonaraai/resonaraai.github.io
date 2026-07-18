@@ -3,10 +3,10 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="theme-color" content="#0b0c10" />
-  <meta name="description" content="Resonara begleitet dich mit klar gekennzeichneter KI durch kurze, evidenz-informierte &Uuml;bungen zur emotionalen Selbstregulation." />
+  <meta name="theme-color" content="#09091f" />
+  <meta name="description" content="Resonara begleitet dich mit klar gekennzeichneter KI durch kurze, evidenz-informierte Übungen zur emotionalen Selbstregulation." />
   <meta property="og:title" content="Resonara" />
-  <meta property="og:description" content="Atmen. Sp&uuml;ren. Wieder klarer werden." />
+  <meta property="og:description" content="Wahrgenommen. Transparent. Evidenz-informiert." />
   <meta property="og:image" content="./assets/resonara-og.png" />
   <link rel="manifest" href="./manifest.webmanifest" />
   <link rel="icon" href="./assets/icon-192.png" type="image/png" />
@@ -23,36 +23,64 @@
     <div class="splash-halo" aria-hidden="true"></div>
     <img class="splash-logo" src="./assets/resonara-logo.png" alt="Resonara" width="256" height="210" />
     <p>Resonara</p>
-    <span>Atmen. Sp&uuml;ren. Wieder klarer werden.</span>
+    <span>Atmen. Spüren. Wieder klarer werden.</span>
   </section>
 
-  <section id="trustGate" class="trust-gate" role="dialog" aria-modal="true" aria-labelledby="trustTitle" aria-describedby="trustIntro" hidden>
-    <div class="trust-card">
-      <img class="trust-logo" src="./assets/resonara-logo.png" alt="Resonara" width="256" height="210" />
-      <p class="eyebrow">Bevor du beginnst</p>
-      <h1 id="trustTitle">Ein sicherer KI-Raum f&uuml;r kurze Selbstregulation.</h1>
-      <p id="trustIntro" class="lead">Du musst nichts perfekt erkl&auml;ren. Ein Satz, ein Gef&uuml;hl oder eine Zahl reicht. Resonara bleibt ruhig, respektvoll und klar als KI gekennzeichnet.</p>
-
-      <div class="trust-points" aria-label="Wichtige Hinweise">
-        <article>
-          <strong>Datenschutz zuerst</strong>
-          <span>Check-in, Notizen und Verlauf bleiben auf diesem Ger&auml;t. Das Mikrofon startet nur nach deinem Klick.</span>
-        </article>
-        <article>
-          <strong>Du sprichst mit KI</strong>
-          <span>Resonara ist kein Mensch, keine Therapie und keine medizinische Beratung.</span>
-        </article>
-        <article>
-          <strong>Evidenz-informiert</strong>
-          <span>Atemregulation, Grounding, K&ouml;rperwahrnehmung und kleine n&auml;chste Schritte.</span>
-        </article>
+  <section id="trustGate" class="trust-gate" role="dialog" aria-modal="true" aria-labelledby="trustTitle" aria-describedby="trustIntro">
+    <div class="trust-aurora" aria-hidden="true"></div>
+    <div class="trust-card card">
+      <div class="trust-hero-block">
+        <div class="trust-brand-row">
+          <img class="trust-mark official-resonara-logo" src="./assets/resonara-logo.png" alt="Resonara Logo" width="256" height="210" />
+          <div>
+            <p class="eyebrow">Bevor du beginnst</p>
+            <h1 id="trustTitle">Ein sicherer KI-Raum für Selbstregulation.</h1>
+          </div>
+        </div>
+        <p id="trustIntro" class="trust-intro">Du musst nichts perfekt erklären. Ein Satz, ein Gefühl oder eine Zahl reicht. Resonara reagiert ruhig, respektvoll und klar als KI gekennzeichnet.</p>
+        <div class="trust-cta-pulse" aria-hidden="true">
+          <span></span><span></span><span></span>
+        </div>
       </div>
 
-      <details class="trust-details">
-        <summary>Mehr zu Datenschutz und Grenzen</summary>
-        <p>Wenn du Sprache nutzt, wird die Aufnahme nur zur Umwandlung in Text verarbeitet. F&uuml;r gesprochene Antworten wird nur der Antworttext verarbeitet. Bei akuter Gefahr, Selbstverletzungsimpulsen oder wenn du dich nicht sicher f&uuml;hlst: bitte sofort menschliche Hilfe holen.</p>
-        <p><strong>Deutschland:</strong> 112 bei Gefahr. TelefonSeelsorge: 0800 1110111, 0800 1110222 oder 116 123.</p>
-      </details>
+      <div class="trust-grid" aria-label="Datenschutz, KI-Hinweis und Wissenschaftlichkeit">
+        <article class="trust-panel privacy-panel">
+          <span class="trust-icon">01</span>
+          <h2>Datenschutz zuerst</h2>
+          <p>Dein Check-in, deine Notizen und dein Verlauf bleiben auf diesem Gerät. Das Mikrofon startet nur, wenn du aktiv auf „Sprechen starten“ tippst.</p>
+          <ul>
+            <li>Deine Stimme wird nur verarbeitet, um Text daraus zu machen.</li>
+            <li>Für eine gesprochene Antwort wird nur der Antworttext verarbeitet.</li>
+            <li>Lokale Daten kannst du jederzeit exportieren oder löschen.</li>
+          </ul>
+        </article>
+
+        <article class="trust-panel ai-panel">
+          <span class="trust-icon">02</span>
+          <h2>Du sprichst mit KI</h2>
+          <p><strong>Resonara ist kein Mensch.</strong> Resonara ist eine KI-gestützte Selbstregulations-Begleitung und ersetzt keine Therapie, Diagnose oder medizinische Beratung.</p>
+          <p>Die KI soll dich nicht überreden, sondern kurz stabilisieren: wahrnehmen, benennen, atmen, orientieren und den nächsten kleinen Schritt finden.</p>
+        </article>
+
+        <article class="trust-panel science-panel">
+          <span class="trust-icon">03</span>
+          <h2>Evidenz-informiert</h2>
+          <p>Resonara nutzt etablierte Prinzipien der Selbstregulation: langsames Atmen, Grounding, Körperwahrnehmung, Affekt-Benennung und kleine Handlungsplanung.</p>
+          <div class="science-pills" aria-label="Methoden">
+            <span>Atemregulation</span>
+            <span>Grounding</span>
+            <span>Körperwahrnehmung</span>
+            <span>Reframing</span>
+          </div>
+        </article>
+
+        <article class="trust-panel limit-panel">
+          <span class="trust-icon">04</span>
+          <h2>Klare Grenze</h2>
+          <p>Bei akuter Gefahr, Selbstverletzungsimpulsen oder wenn du dich nicht sicher fühlst: bitte sofort menschliche Hilfe holen.</p>
+          <p class="emergency-line">Deutschland: 112 bei Gefahr. TelefonSeelsorge: 0800 1110111, 0800 1110222 oder 116 123.</p>
+        </article>
+      </div>
 
       <form id="trustForm" class="trust-consent">
         <label class="consent-row">
@@ -61,215 +89,331 @@
         </label>
         <label class="consent-row">
           <input id="trustDataCheck" class="trust-check" type="checkbox" required />
-          <span>Ich verstehe: Wenn ich Sprache nutze, wird sie nur f&uuml;r diese Funktion verarbeitet.</span>
+          <span>Ich verstehe: Wenn ich die Sprachfunktion nutze, wird meine Stimme nur zur Sprachverarbeitung genutzt; Verlauf und Check-in bleiben auf diesem Gerät.</span>
         </label>
         <label class="consent-row">
           <input id="trustCrisisCheck" class="trust-check" type="checkbox" required />
-          <span>Ich verstehe: Bei akuter Krise nutze ich menschliche Hilfe.</span>
+          <span>Ich verstehe: Bei akuter Krise nutze ich menschliche Hilfe und nicht Resonara als Notfalldienst.</span>
         </label>
-        <button id="acceptTrust" type="submit" disabled>Ich bin bereit - Resonanz starten</button>
+        <div class="trust-actions">
+          <a class="secondary-link" href="tel:112">Akute Gefahr: 112</a>
+          <button id="acceptTrust" type="submit" disabled>Ich bin bereit – Resonanz starten</button>
+        </div>
+        <p class="trust-smallprint">Resonara kann dich bei kurzer Selbstregulation begleiten. Es ersetzt keine Therapie, keine Diagnose, keine medizinische Beratung und keine Notfallhilfe.</p>
       </form>
     </div>
   </section>
 
-  <main id="app" class="app-shell" hidden>
-    <header class="app-header">
-      <button id="brandHome" class="brand-home" type="button" aria-label="Zur Startansicht">
-        <img src="./assets/resonara-logo.png" alt="Resonara" width="256" height="210" />
-      </button>
-      <div class="header-status">
-        <span id="connectionStatus" class="status-pill">Bereit</span>
-        <span class="status-pill soft">KI-Begleitung</span>
-      </div>
-      <button id="installButton" class="ghost-button" type="button" hidden>App speichern</button>
-    </header>
-
-    <section class="guide-shell" aria-label="Gef&uuml;hrte Resonara Session">
-      <div class="progress-wrap" aria-label="Fortschritt">
-        <div class="progress-copy">
-          <span id="stepKicker">Schritt 1 von 8</span>
-          <strong id="stepTitleMini">Ankommen</strong>
-        </div>
-        <div class="progress-track"><span id="progressBar"></span></div>
-      </div>
-
-      <article class="guide-card">
-        <div class="step-visual" aria-hidden="true">
-          <canvas id="resonanceCanvas" width="520" height="520"></canvas>
-          <div id="intensityOrb" class="resonance-orb">
-            <span id="orbLabel">Bereit</span>
-            <strong id="orbValue">Resonara</strong>
-            <small id="orbSub">ein Schritt nach dem anderen</small>
+  <main class="app-shell">
+    <section class="hero-card card" aria-labelledby="appTitle">
+      <div class="brand-block">
+        <div class="brand-row">
+          <a id="brandHome" class="brand-home" href="#coach" aria-label="Resonara Start">
+            <img class="brand-mark official-resonara-logo" src="./assets/resonara-logo.png" alt="Resonara Logo" width="256" height="210" />
+          </a>
+          <div>
+            <p class="eyebrow">KI-Raum für Selbstregulation</p>
+            <h1 id="appTitle">Resonara</h1>
+            <p class="hero-copy">Kurze, ruhige Begleitung, wenn du emotional hochgefahren bist. Resonara fragt nach Gefühl, Intensität und Körperfokus, schlägt eine passende Übung vor und zeigt klar: Du sprichst mit einer KI.</p>
           </div>
         </div>
+        <div class="hero-actions">
+          <div class="status-pill" id="connectionStatus" aria-live="polite">Bereit</div>
+          <div class="status-pill ai-pill">Du sprichst mit KI</div>
+          <button id="heroStart" type="button">2-Minuten-Reset starten</button>
+          <button id="installButton" class="secondary small" type="button" hidden>Als App speichern</button>
+        </div>
+      </div>
 
-        <section class="guide-step active" data-step="0" aria-labelledby="welcomeTitle">
-          <p class="eyebrow">Sanft starten</p>
-          <h1 id="welcomeTitle">Was ist gerade da?</h1>
-          <p class="lead">Resonara f&uuml;hrt dich durch wenige kurze Fragen und schl&auml;gt danach eine passende &Uuml;bung vor.</p>
-          <div class="choice-list compact">
-            <button class="choice primary-choice" type="button" data-jump="1">
-              <strong>Ich m&ouml;chte einen 2-Minuten-Reset</strong>
-              <span>Schnell runterregeln und wieder Orientierung finden.</span>
-            </button>
-            <button class="choice" type="button" data-open-audio="true">
-              <strong>Ich m&ouml;chte sp&auml;ter sprechen</strong>
-              <span>Sprache kannst du w&auml;hrend der &Uuml;bung aktivieren.</span>
-            </button>
+      <div class="hero-visual" aria-label="Resonara Resonanzfeld">
+        <canvas id="resonanceCanvas" width="720" height="420" aria-hidden="true"></canvas>
+        <div class="official-logo-card" aria-hidden="true"><img src="./assets/resonara-logo.png" alt="" width="256" height="210" /></div>
+        <div class="hero-orb" id="intensityOrb">
+          <span class="orb-kicker">Aktueller Zustand</span>
+          <strong id="emotionVizLabel">Stress</strong>
+          <span id="emotionVizSub">6/10 · Brust</span>
+        </div>
+        <div class="hero-legend">
+          <span><i></i> KI klar gekennzeichnet</span>
+          <span><i></i> Stimme nur nach Tipp</span>
+          <span><i></i> Verlauf auf diesem Gerät</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="science-trust-strip" aria-labelledby="scienceTrustTitle">
+      <div class="section-head science-head">
+        <div>
+          <p class="eyebrow">Sicher starten</p>
+          <h2 id="scienceTrustTitle">Wahrgenommen, transparent, evidenz-informiert.</h2>
+        </div>
+        <span class="local-badge">Resonara</span>
+      </div>
+      <div class="science-card-grid">
+        <article class="science-card">
+          <strong>1. Wahrnehmen</strong>
+          <p>Du startest mit Gefühl, Intensität und Körper-Ort. So muss nichts perfekt erklärt werden, bevor etwas leichter werden darf.</p>
+        </article>
+        <article class="science-card">
+          <strong>2. Regulieren</strong>
+          <p>Die Übungen sind kurz, konkret und körperorientiert: Atmen, Grounding, Orientierung, Benennen und Abschließen.</p>
+        </article>
+        <article class="science-card">
+          <strong>3. Grenzen halten</strong>
+          <p>Resonara bleibt klar als KI erkennbar, macht keine Diagnose und verweist bei Krise auf menschliche Hilfe.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="grid two-col">
+      <article class="card checkin" aria-labelledby="checkinTitle">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Dein Check-in</p>
+            <h2 id="checkinTitle">Was ist gerade da?</h2>
           </div>
-        </section>
+          <span class="local-badge">auf diesem Gerät</span>
+        </div>
 
-        <section class="guide-step" data-step="1" aria-labelledby="emotionTitle">
-          <p class="eyebrow">Gef&uuml;hl</p>
-          <h2 id="emotionTitle">Welches Wort passt am ehesten?</h2>
-          <p class="lead">Nimm das erste Wort, das nah genug ist. Es muss nicht exakt sein.</p>
-          <fieldset id="emotionField" class="choice-grid" aria-label="Gef&uuml;hl ausw&auml;hlen">
-            <button class="choice chip active" type="button" data-emotion="stress">Stress</button>
-            <button class="choice chip" type="button" data-emotion="angst">Angst</button>
-            <button class="choice chip" type="button" data-emotion="wut">Wut</button>
-            <button class="choice chip" type="button" data-emotion="traurigkeit">Traurigkeit</button>
-            <button class="choice chip" type="button" data-emotion="ueberforderung">&Uuml;berforderung</button>
-            <button class="choice chip" type="button" data-emotion="unklar">Unklarheit</button>
-          </fieldset>
-        </section>
-
-        <section class="guide-step" data-step="2" aria-labelledby="intensityTitle">
-          <p class="eyebrow">St&auml;rke</p>
-          <h2 id="intensityTitle">Wie stark ist es gerade?</h2>
-          <p class="lead">0 bedeutet ganz ruhig, 10 bedeutet sehr intensiv.</p>
-          <div class="intensity-display">
-            <strong><span id="intensityValue">6</span>/10</strong>
-            <span id="intensityLabel">sp&uuml;rbar, aber regulierbar</span>
-          </div>
-          <input id="intensity" class="range" type="range" min="0" max="10" value="6" aria-label="Intensit&auml;t" />
-          <div class="range-words"><span>ruhig</span><span>stark</span></div>
-        </section>
-
-        <section class="guide-step" data-step="3" aria-labelledby="bodyTitle">
-          <p class="eyebrow">K&ouml;rper</p>
-          <h2 id="bodyTitle">Wo sp&uuml;rst du es am meisten?</h2>
-          <p class="lead">Ein K&ouml;rper-Ort reicht. Resonara nutzt ihn nur f&uuml;r die passende &Uuml;bung.</p>
-          <div class="body-options" id="bodyFocus">
-            <button class="choice body-choice active" type="button" data-body="Brust">Brust</button>
-            <button class="choice body-choice" type="button" data-body="Bauch">Bauch</button>
-            <button class="choice body-choice" type="button" data-body="Kopf">Kopf</button>
-            <button class="choice body-choice" type="button" data-body="Hals">Hals</button>
-            <button class="choice body-choice" type="button" data-body="Schultern">Schultern</button>
-            <button class="choice body-choice" type="button" data-body="ganzer K&ouml;rper">Ganzer K&ouml;rper</button>
-          </div>
-        </section>
-
-        <section class="guide-step" data-step="4" aria-labelledby="goalTitle">
-          <p class="eyebrow">Richtung</p>
-          <h2 id="goalTitle">Was w&auml;re jetzt hilfreich?</h2>
-          <p class="lead">W&auml;hle eine Richtung. Die &Uuml;bung bleibt kurz und machbar.</p>
-          <div id="sessionGoal" class="choice-list">
-            <button class="choice goal-choice active" type="button" data-goal="runterregeln"><strong>Runterregeln</strong><span>Mein System soll langsamer werden.</span></button>
-            <button class="choice goal-choice" type="button" data-goal="klarheit"><strong>Klarheit</strong><span>Ich m&ouml;chte sortierter denken.</span></button>
-            <button class="choice goal-choice" type="button" data-goal="einschlafen"><strong>Zur Ruhe kommen</strong><span>Weniger Analyse, mehr K&ouml;rperkontakt.</span></button>
-            <button class="choice goal-choice" type="button" data-goal="mut"><strong>Mut</strong><span>Ein kleiner n&auml;chster Schritt.</span></button>
-          </div>
-        </section>
-
-        <section class="guide-step" data-step="5" aria-labelledby="exerciseTitle">
-          <p class="eyebrow">Vorschlag</p>
-          <h2 id="exerciseTitle">Deine &Uuml;bung</h2>
-          <p id="exerciseReason" class="lead">Resonara w&auml;hlt eine passende &Uuml;bung.</p>
-          <ol id="exerciseSteps" class="exercise-steps"></ol>
-          <button id="suggestExercise" class="main-action" type="button">&Uuml;bung starten</button>
-        </section>
-
-        <section class="guide-step" data-step="6" aria-labelledby="coachTitle">
-          <p class="eyebrow">Begleitung</p>
-          <h2 id="coachTitle">Bleib bei einem kleinen Schritt.</h2>
-          <div class="breath-card" aria-label="Atem-Guide">
-            <div id="breathOrb" class="breath-orb"><span></span></div>
+        <div class="checkin-cockpit" aria-label="Check-in Visualisierung">
+          <div class="intensity-dial" aria-hidden="true">
+            <svg viewBox="0 0 140 140" role="img" aria-label="Intensitätsring">
+              <defs>
+                <linearGradient id="dialGradient" x1="0" x2="1" y1="0" y2="1">
+                  <stop offset="0%" stop-color="#64e8ff" />
+                  <stop offset="52%" stop-color="#b74dff" />
+                  <stop offset="100%" stop-color="#ff4fb8" />
+                </linearGradient>
+              </defs>
+              <circle class="dial-track" cx="70" cy="70" r="58" />
+              <circle id="intensityArc" class="dial-arc" cx="70" cy="70" r="58" />
+            </svg>
             <div>
-              <strong id="breathCue">Einatmen</strong>
-              <p id="breathPhase">Langsam. Ohne etwas leisten zu m&uuml;ssen.</p>
+              <strong><span id="dialValue">6</span>/10</strong>
+              <span id="dialLabel">Stress</span>
             </div>
           </div>
-          <div id="messages" class="messages" aria-live="polite"></div>
-          <div class="session-actions">
-            <button id="recordButton" class="record-button" type="button" aria-pressed="false"><span id="recordLabel">Sprechen</span></button>
-            <button id="writeToggle" class="ghost-button" type="button">Schreiben</button>
-            <button id="finishSession" class="main-action" type="button">Abschluss</button>
+          <div class="body-map" aria-hidden="true">
+            <div class="body-silhouette">
+              <span class="body-node head"></span>
+              <span class="body-node throat"></span>
+              <span class="body-node chest active"></span>
+              <span class="body-node belly"></span>
+              <span class="body-node shoulders left"></span>
+              <span class="body-node shoulders right"></span>
+            </div>
+            <p><strong id="bodyVizLabel">Brust</strong><span>Körper-Fokus</span></p>
           </div>
-          <p id="recordStatus" class="hint">Das Mikrofon startet nur nach deinem Klick.</p>
-          <form id="textForm" class="text-form" hidden>
-            <label class="sr-only" for="textInput">Nachricht schreiben</label>
-            <textarea id="textInput" rows="3" placeholder="Schreibe einen Satz, z. B.: Es sitzt in der Brust und ist 7/10." maxlength="1500"></textarea>
-            <button type="submit">Senden</button>
-          </form>
-          <audio id="player" controls hidden></audio>
-        </section>
+        </div>
 
-        <section class="guide-step" data-step="7" aria-labelledby="summaryTitle">
-          <p class="eyebrow">Abschluss</p>
-          <h2 id="summaryTitle">Was ist jetzt minimal anders?</h2>
-          <p class="lead">Gib dir eine neue Zahl. Schon ein Punkt weniger ist ein Signal.</p>
-          <div class="intensity-display softer">
-            <strong><span id="afterIntensityValue">5</span>/10</strong>
-            <span>jetzt gerade</span>
-          </div>
-          <input id="afterIntensity" class="range" type="range" min="0" max="10" value="5" aria-label="Intensit&auml;t nach der &Uuml;bung" />
-          <label class="next-step-label" for="nextStepInput">Ein kleiner n&auml;chster Schritt</label>
-          <textarea id="nextStepInput" rows="2" placeholder="z. B. Wasser trinken, Fenster &ouml;ffnen, eine Person anschreiben"></textarea>
-          <div class="summary-actions">
-            <button id="copySummary" class="secondary" type="button">Notiz kopieren</button>
-            <button id="exportSession" class="secondary" type="button">Exportieren</button>
-            <button id="newSession" class="main-action" type="button">Neu starten</button>
-          </div>
-        </section>
+        <fieldset id="emotionField" class="chip-field">
+          <legend>Gefühl</legend>
+          <button class="chip active" type="button" data-emotion="stress">Stress</button>
+          <button class="chip" type="button" data-emotion="angst">Angst</button>
+          <button class="chip" type="button" data-emotion="wut">Wut</button>
+          <button class="chip" type="button" data-emotion="traurigkeit">Traurigkeit</button>
+          <button class="chip" type="button" data-emotion="ueberforderung">Überforderung</button>
+          <button class="chip" type="button" data-emotion="unklar">Unklar</button>
+        </fieldset>
+
+        <label class="range-label" for="intensity">
+          <span>Intensität</span>
+          <strong><span id="intensityValue">6</span>/10</strong>
+        </label>
+        <input id="intensity" type="range" min="0" max="10" value="6" />
+
+        <div class="field-grid">
+          <label>
+            Körper-Ort
+            <select id="bodyFocus">
+              <option value="Brust">Brust</option>
+              <option value="Bauch">Bauch</option>
+              <option value="Kopf">Kopf</option>
+              <option value="Hals">Hals</option>
+              <option value="Schultern">Schultern</option>
+              <option value="ganzer Körper">Ganzer Körper</option>
+            </select>
+          </label>
+          <label>
+            Ziel für jetzt
+            <select id="sessionGoal">
+              <option value="runterregeln">Runterregeln</option>
+              <option value="klarheit">Klarheit</option>
+              <option value="einschlafen">Einschlafen</option>
+              <option value="mut">Mut</option>
+            </select>
+          </label>
+        </div>
+
+        <button id="suggestExercise" type="button">2-Minuten-Reset starten</button>
       </article>
 
-      <nav class="guide-nav" aria-label="Schritt Navigation">
-        <button id="backButton" class="secondary" type="button">Zur&uuml;ck</button>
-        <button id="nextButton" class="main-action" type="button">Weiter</button>
-      </nav>
+      <article class="card settings voice-setup" aria-labelledby="settingsTitle">
+        <button class="section-toggle voice-toggle" id="settingsToggle" type="button" aria-expanded="false" aria-controls="settingsPanel">
+          <span>
+            <span class="eyebrow">Optional</span>
+            <strong id="settingsTitle">Mit Stimme sprechen</strong>
+            <small>Schreiben funktioniert immer. Stimme schaltest du nur ein, wenn du sie nutzen möchtest.</small>
+          </span>
+          <span class="chevron" aria-hidden="true">⌄</span>
+        </button>
+
+        <div class="voice-intro">
+          <span class="voice-dot" aria-hidden="true"></span>
+          <p>Tippe später einfach auf „Sprechen starten“. Resonara hört erst nach deinem Tippen zu und macht daraus Text für deinen Check-in.</p>
+        </div>
+
+        <div id="settingsPanel" class="settings-panel voice-settings collapsed">
+          <p class="voice-settings-copy">Für Sprache wird einmalig ein geschützter Sprachlink hinterlegt. Danach fühlt es sich wie ein normaler Sprach-Check-in an.</p>
+          <label>
+            Geschützter Sprachlink
+            <input id="serverUrl" type="url" inputmode="url" placeholder="Sprachlink einfügen" autocomplete="url" />
+          </label>
+          <label>
+            Privater Zugangscode
+            <input id="apiToken" type="password" placeholder="Zugangscode" autocomplete="off" />
+          </label>
+          <label>
+            Deine Sprache
+            <select id="language">
+              <option value="de" selected>Deutsch</option>
+              <option value="en">Englisch</option>
+              <option value="auto">Automatisch erkennen</option>
+            </select>
+          </label>
+          <input id="processingMode" type="hidden" value="browser-first" />
+          <label class="check-row">
+            <input id="useServerTts" type="checkbox" checked />
+            <span>Resonara darf Antworten sprechen</span>
+          </label>
+          <label class="check-row">
+            <input id="useBrowserTts" type="checkbox" checked />
+            <span>Falls nötig, Stimme dieses Geräts verwenden</span>
+          </label>
+          <div class="settings-actions">
+            <button id="saveSettings" type="button">Stimme speichern</button>
+            <button id="testConnection" class="secondary" type="button">Sprache prüfen</button>
+          </div>
+          <p class="hint">Wenn du sprichst, wird deine Stimme nur in Text umgewandelt. Verlauf und Check-in bleiben auf diesem Gerät.</p>
+        </div>
+
+        <div class="data-flow" aria-label="Privatsphäre bei Resonara">
+          <div><span>Schreiben</span><strong>sofort</strong></div>
+          <i></i>
+          <div><span>Sprechen</span><strong>optional</strong></div>
+          <i></i>
+          <div><span>Verlauf</span><strong>privat</strong></div>
+        </div>
+      </article>
     </section>
 
-    <section class="support-row" aria-label="Weitere Optionen">
-      <button id="settingsToggle" class="mini-card" type="button" aria-expanded="false" aria-controls="settingsPanel">
-        <span>Sprache</span><strong>einrichten</strong>
-      </button>
-      <button id="historyToggle" class="mini-card" type="button">
-        <span>Verlauf</span><strong id="metricTurns">0 Beitr&auml;ge</strong>
-      </button>
-      <button id="revisitTrust" class="mini-card" type="button">
-        <span>Sicherheit</span><strong>Hinweise</strong>
-      </button>
+    <section id="coach" class="card coach" aria-labelledby="coachTitle">
+      <div class="coach-header">
+        <div>
+          <p class="eyebrow">Resonanzraum</p>
+          <h2 id="coachTitle">Beginne mit einem Satz oder deiner Stimme.</h2>
+        </div>
+        <div class="coach-actions">
+          <button id="copySummary" class="secondary small" type="button">Notiz kopieren</button>
+          <button id="clearSession" class="secondary small" type="button">Verlauf löschen</button>
+        </div>
+      </div>
+
+      <div class="session-stage">
+        <div class="voice-card" aria-label="Stimmen-Visualisierung">
+          <div class="voice-card-head">
+            <span class="eyebrow">Live-Signal</span>
+            <strong id="voiceModeLabel">Bereit</strong>
+          </div>
+          <canvas id="voiceCanvas" width="900" height="220" aria-hidden="true"></canvas>
+          <p id="visualMode" class="visual-mode">Ruhige Resonanz · Mikrofon startet erst nach deinem Tipp.</p>
+        </div>
+
+        <div class="breath-card" aria-label="Atem-Visualisierung">
+          <div class="breath-orb" id="breathOrb" aria-hidden="true"><span></span></div>
+          <div>
+            <p class="eyebrow">Atem-Guide</p>
+            <h3 id="breathCue">Bereit</h3>
+            <p id="breathPhase" class="subtle">Bei Atemübungen pulsiert die Kugel im 4-6-Rhythmus.</p>
+          </div>
+        </div>
+      </div>
+
+      <div id="messages" class="messages" aria-live="polite"></div>
+
+      <aside id="exercisePanel" class="exercise-panel" hidden>
+        <div>
+          <p class="eyebrow">Aktuelle Übung</p>
+          <h3 id="exerciseTitle"></h3>
+          <p id="exerciseReason" class="subtle"></p>
+        </div>
+        <ol id="exerciseSteps"></ol>
+      </aside>
+
+      <div class="quick-actions" aria-label="Schnelle Übungen">
+        <button class="secondary small" type="button" data-quick="breath-46">Atmen</button>
+        <button class="secondary small" type="button" data-quick="grounding-54321">Grounding</button>
+        <button class="secondary small" type="button" data-quick="name-feeling">Benennen</button>
+        <button class="secondary small" type="button" data-quick="session-close">Abschluss</button>
+      </div>
+
+      <div class="record-panel">
+        <button id="recordButton" class="record-button" type="button" aria-pressed="false">
+          <span class="record-ring" aria-hidden="true"></span>
+          <span id="recordLabel">Sprechen starten</span>
+        </button>
+        <p id="recordStatus" class="hint">Du sprichst mit Resonara KI. Tippe, sprich einen Satz, und Resonara macht daraus Text für deine Begleitung.</p>
+      </div>
+
+      <form id="textForm" class="text-form">
+        <label class="sr-only" for="textInput">Nachricht schreiben</label>
+        <textarea id="textInput" rows="2" placeholder="Schreibe z. B.: Ich bin gerade angespannt, 7/10, in der Brust …" maxlength="1500"></textarea>
+        <button type="submit">Senden</button>
+      </form>
+
+      <audio id="player" controls hidden></audio>
     </section>
 
-    <section id="settingsPanel" class="drawer-card" hidden>
-      <div class="drawer-head">
-        <div><p class="eyebrow">Option</p><h2>Sprache einrichten</h2></div>
-        <button id="closeSettings" class="icon-button" type="button" aria-label="Schlie&szlig;en">x</button>
-      </div>
-      <label>Audio-Adresse<input id="serverUrl" type="url" inputmode="url" placeholder="https://resonara-audio.example" autocomplete="url" /></label>
-      <label>Zugangscode<input id="apiToken" type="password" placeholder="Zugangscode" autocomplete="off" /></label>
-      <label>Sprache f&uuml;r Spracheingabe<select id="language"><option value="de" selected>Deutsch</option><option value="en">Englisch</option><option value="auto">Automatisch</option></select></label>
-      <label class="check-row"><input id="useServerTts" type="checkbox" checked /><span>Gesprochene Antwort aktivieren</span></label>
-      <label class="check-row"><input id="useBrowserTts" type="checkbox" checked /><span>Einfache Sprachausgabe als Ersatz nutzen</span></label>
-      <select id="processingMode" hidden><option value="browser-first" selected>Browser first</option><option value="legacy-server-turn">Legacy server turn</option></select>
-      <div class="drawer-actions">
-        <button id="saveSettings" class="main-action" type="button">Speichern</button>
-        <button id="testConnection" class="secondary" type="button">Verbindung testen</button>
-      </div>
-      <p class="hint">Dein Verlauf bleibt auf diesem Ger&auml;t. Sprachfunktionen verarbeiten nur Aufnahme oder Antworttext.</p>
-    </section>
+    <section class="grid two-col lower-grid">
+      <article class="card protocol" aria-labelledby="protocolTitle">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Dein Verlauf</p>
+            <h2 id="protocolTitle">Nur auf diesem Gerät</h2>
+          </div>
+          <span class="local-badge">privat</span>
+        </div>
+        <dl class="metrics">
+          <div><dt>Beiträge</dt><dd id="metricTurns">0</dd></div>
+          <div><dt>Letzte Übung</dt><dd id="metricExercise">-</dd></div>
+          <div><dt>Intensität</dt><dd id="metricIntensity">6/10</dd></div>
+        </dl>
+        <div class="session-arc" aria-label="Session Verlauf">
+          <div>
+            <p class="eyebrow">Regulationsbogen</p>
+            <strong id="stabilityIndex">Noch keine Daten</strong>
+          </div>
+          <canvas id="timelineCanvas" width="900" height="220" aria-hidden="true"></canvas>
+        </div>
+        <div class="insight-strip">
+          <span id="sessionTempo">Tempo: ruhig</span>
+          <span id="privacyGauge">Privat: Gerät</span>
+          <span>Stimme: nur bei Tipp</span>
+        </div>
+        <div class="settings-actions">
+          <button id="exportSession" class="secondary" type="button">Daten exportieren</button>
+          <button id="resetLocalData" class="secondary danger" type="button">Alle lokalen Daten löschen</button>
+        </div>
+      </article>
 
-    <section id="historyPanel" class="drawer-card" hidden>
-      <div class="drawer-head">
-        <div><p class="eyebrow">Privat</p><h2>Dein Verlauf</h2></div>
-        <button id="closeHistory" class="icon-button" type="button" aria-label="Schlie&szlig;en">x</button>
-      </div>
-      <dl class="metrics">
-        <div><dt>Letzte &Uuml;bung</dt><dd id="metricExercise">-</dd></div>
-        <div><dt>Intensit&auml;t</dt><dd id="metricIntensity">6/10</dd></div>
-      </dl>
-      <button id="clearSession" class="secondary" type="button">Aktuellen Verlauf l&ouml;schen</button>
-      <button id="resetLocalData" class="secondary danger" type="button">Alle lokalen Daten l&ouml;schen</button>
+      <article class="card safety">
+        <div class="safety-glow" aria-hidden="true"></div>
+        <p class="eyebrow">Transparenz</p>
+        <h2>KI-Begleitung mit klaren Grenzen</h2>
+        <p><strong>Resonara ist eine KI.</strong> Sie bietet kurze Selbstregulations-Übungen und ersetzt keine Therapie, medizinische Beratung oder Notfallhilfe.</p>
+        <p>Bei akuter Gefahr: 112. In Deutschland ist die TelefonSeelsorge unter 0800 1110111, 0800 1110222 oder 116 123 erreichbar.</p>
+        <button id="revisitTrust" class="secondary small" type="button">Datenschutz & KI-Hinweis erneut anzeigen</button>
+      </article>
     </section>
   </main>
 

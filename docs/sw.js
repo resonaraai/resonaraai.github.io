@@ -1,4 +1,4 @@
-const CACHE_NAME = 'resonara-guided-v1';
+const CACHE_NAME = 'resonara-customer-v7-voice';
 const APP_SHELL = [
   './',
   './index.html',

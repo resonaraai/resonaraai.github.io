@@ -2,7 +2,7 @@
 
 Resonara ist ein Web-App-first MVP für emotionale Selbstregulation mit einer stark visuellen, lokalen Session-Oberfläche, vorgeschaltetem Datenschutz-/KI-Hinweis und evidenz-informierter Nutzerführung.
 
-Ziel dieser Version: Fast alles läuft im Browser und kann statisch auf GitHub Pages deployed werden. Dein Linux-Rechner zu Hause macht nur die Audio-nahe Arbeit, die im Browser nicht zuverlässig lokal geht.
+Ziel dieser Version: Fast alles läuft im Browser und kann statisch auf GitHub Pages deployed werden. Dein Linux-Rechner zu Hause macht nur die Sprachverarbeitung, die im Browser nicht zuverlässig lokal geht.
 
 ## Architektur
 
@@ -13,26 +13,26 @@ GitHub Pages Web-App
   - Atem-Orb für 4-6 Atemrhythmus und lokaler Regulationsbogen
   - Regelbasierte Übungsauswahl
   - lokale Session History und Summary
-  - Krisen-Vorpruefung im Browser
+  - Krisen-Vorprüfung im Browser
   - Browser-TTS als Fallback
   - offline-fähige Assets via Service Worker
 
 Tailscale Funnel
   - HTTPS-Brücke zum Linux-Rechner
 
-Linux Audio Server
-  - /api/transcribe: Audio -> whisper.cpp -> Text
-  - /api/speak: Text -> Piper -> WAV
+Linux-Sprachdienst
+  - /api/transcribe: Stimme -> whisper.cpp -> Text
+  - /api/speak: Antworttext -> Piper -> gesprochene Antwort
   - optional legacy: Ollama generiert Antworten
 ```
 
-Im Standardmodus sendet die Web-App nicht den kompletten Verlauf an den Server. Bei Sprache wird nur die Audiodatei für STT gesendet. Für Sprachausgabe wird nur der von der Web-App erzeugte Antworttext an Piper gesendet. Textnachrichten koennen komplett im Browser verarbeitet werden.
+Im Standardmodus sendet die Web-App nicht den kompletten Verlauf an den Server. Bei Sprache wird nur die Sprachdatei zur Texterkennung gesendet. Für Sprachausgabe wird nur der von der Web-App erzeugte Antworttext an Piper gesendet. Textnachrichten können komplett im Browser verarbeitet werden.
 
 ## Ordner
 
 ```text
 docs/                  # statische Web-App für GitHub Pages
-server/                # lokaler Linux Audio Server
+server/                # lokaler Linux-Sprachdienst
 .github/workflows/     # GitHub Actions für Test + Pages Deploy
 scripts/               # kleine Repo-Validierung für CI
 ```
@@ -58,7 +58,7 @@ Diese Version rendert die beeindruckenderen Produktmomente direkt im Browser: ei
 
 Neu ist ein vorgeschalteter Trust-Screen: Nutzer sehen vor der ersten Session Datenschutz, KI-Transparenz, Grenzen und die evidenz-informierten Grundprinzipien. Erst nach drei aktiven Checkboxen wird Resonara gestartet. Die CTA startet anschließend direkt einen sanften 2-Minuten-Reset, damit Nutzer nicht in einer leeren Oberfläche hängen bleiben.
 
-## 2. Linux Audio Server vorbereiten
+## 2. Linux-Sprachdienst vorbereiten
 
 Auf Ubuntu/Debian:
 
@@ -115,18 +115,18 @@ Die Statusausgabe zeigt dir die öffentliche HTTPS-URL, z. B.:
 https://dein-rechner.dein-tailnet.ts.net
 ```
 
-Diese URL trägst du in der Web-App als `Audio-Adresse` ein. Den Token findest du in `server/.env`.
+Diese URL trägst du in der Web-App als `Geschützter Sprachlink` ein. Den Token findest du in `server/.env`.
 
 ## 5. Web-App nutzen
 
 1. Resonara-Seite auf GitHub Pages öffnen.
 2. Datenschutz-/KI-Hinweis lesen und die drei Checkboxen bestätigen.
 3. Im Setup die Funnel-URL und den Token speichern.
-4. `Verbindung testen` klicken.
+4. `Sprache prüfen` klicken.
 5. Gefühl und Intensität wählen.
-6. Text schreiben, 2-Minuten-Reset starten oder Audio aufnehmen.
+6. Text schreiben, 2-Minuten-Reset starten oder sprechen.
 
-Der Standardmodus heißt `Web-App entscheidet, Audio nur für Sprache`. Dabei bleibt die fachliche Session-Logik im Browser.
+Der Standardmodus bleibt: Resonara entscheidet im Browser; nur deine Stimme oder der Antworttext wird bei Sprachfunktionen verarbeitet.
 
 ## 6. Produktgrenzen
 
@@ -135,10 +135,10 @@ Dieser MVP ist für emotionale Selbstregulierung, nicht für Therapie, Diagnose 
 Für einen echten Pilotbetrieb solltest du mindestens ergänzen:
 
 - finalen Datenschutztext und wirksame Einwilligung für deinen konkreten Betrieb
-- keine Speicherung von Audio ohne Grund
-- klares Löschkonzept für lokale und serverseitige Daten
+- keine Speicherung von Sprachdaten ohne Grund
+- klares Löschkonzept für lokale und dienstseitige Daten
 - Token-Rotation und origin-spezifisches CORS
-- Monitoring deines Home-Servers
+- Monitoring deines Linux-Rechners
 - menschlicher Handoff für Krisenfälle
 
 ## 7. Systemd optional

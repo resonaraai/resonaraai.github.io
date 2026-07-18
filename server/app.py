@@ -238,7 +238,7 @@ async def stt_endpoint(
 @app.post("/api/llm")
 async def llm_endpoint(body: LlmRequest, _: None = Depends(require_access)) -> Dict[str, Any]:
     if not settings.enable_legacy_llm:
-        raise HTTPException(status_code=501, detail="Legacy LLM endpoint is disabled. Use browser-first Web-App logic plus /api/transcribe and /api/speak.")
+        raise HTTPException(status_code=501, detail="Legacy LLM endpoint is disabled. Use browser-first Web-App-Logik plus /api/transcribe and /api/speak.")
     reply = await asyncio.to_thread(
         call_ollama,
         body.prompt,
