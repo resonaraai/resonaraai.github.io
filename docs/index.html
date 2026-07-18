@@ -139,7 +139,7 @@
           <div class="status-pill" id="connectionStatus" aria-live="polite">Bereit</div>
           <div class="status-pill ai-pill">Du sprichst mit KI</div>
           <button id="heroStart" type="button">Jetzt geführt starten</button>
-          <button id="installButton" class="secondary small" type="button" hidden>Als App speichern</button>
+          <button id="installButton" class="secondary small" type="button" hidden>App speichern</button>
         </div>
       </div>
 
@@ -196,7 +196,7 @@
         <div>
           <p class="eyebrow">Resonanzwege</p>
           <h2 id="resonancePathsTitle">Wähle deinen Moment.</h2>
-          <p>Ein Tipp reicht. Resonara stellt Gefühl, Intensität und Übung passend ein und führt dich direkt in den ersten Schritt.</p>
+          <p>Wähle erst deinen Moment. Danach startest du bewusst – Resonara führt dich ruhig in den ersten Schritt.</p>
         </div>
         <span class="pathway-badge">4 Wege</span>
       </div>
@@ -233,6 +233,7 @@
       <div class="pathway-preview" aria-live="polite">
         <div class="pathway-mini-orb" aria-hidden="true"><span></span></div>
         <p id="pathwayNote">Vorauswahl: Stress 6/10, Brust, 4-6 Atemanker. Du kannst alles danach ändern.</p>
+        <button id="pathwayStart" class="pathway-start" type="button">Diesen Weg starten</button>
       </div>
     </section>
 
@@ -594,6 +595,18 @@
       <strong>Schreiben</strong>
     </button>
   </nav>
+
+  <section id="updateNotice" class="update-notice" role="status" aria-live="polite" hidden>
+    <div class="update-notice__orb" aria-hidden="true"></div>
+    <div>
+      <strong>Neue Resonara-Version verfügbar</strong>
+      <p>Du kannst die neueste Version jetzt installieren. Deine lokalen Einträge bleiben erhalten.</p>
+    </div>
+    <div class="update-notice__actions">
+      <button id="updateNow" type="button">Neue Version installieren</button>
+      <button id="updateLater" class="secondary small" type="button">Später</button>
+    </div>
+  </section>
 
   <script src="./app.js" type="module"></script>
 </body>

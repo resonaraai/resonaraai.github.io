@@ -2,7 +2,7 @@
   "name": "Resonara",
   "short_name": "Resonara",
   "description": "Resonara begleitet dich mit klar gekennzeichneter KI durch kurze Übungen zur emotionalen Selbstregulation.",
-  "start_url": "./#coach",
+  "start_url": "./",
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait-primary",

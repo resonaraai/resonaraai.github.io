@@ -12,6 +12,7 @@ const els = {
   guidedWrite: document.querySelector('#guidedWrite'),
   resonancePaths: document.querySelector('#resonancePaths'),
   pathwayNote: document.querySelector('#pathwayNote'),
+  pathwayStart: document.querySelector('#pathwayStart'),
   pathwayCards: document.querySelectorAll('[data-pathway]'),
   dockReset: document.querySelector('#dockReset'),
   dockPaths: document.querySelector('#dockPaths'),
@@ -29,6 +30,9 @@ const els = {
   settingsToggle: document.querySelector('#settingsToggle'),
   settingsPanel: document.querySelector('#settingsPanel'),
   installButton: document.querySelector('#installButton'),
+  updateNotice: document.querySelector('#updateNotice'),
+  updateNow: document.querySelector('#updateNow'),
+  updateLater: document.querySelector('#updateLater'),
   emotionField: document.querySelector('#emotionField'),
   intensity: document.querySelector('#intensity'),
   intensityValue: document.querySelector('#intensityValue'),
@@ -162,6 +166,9 @@ const state = {
   reflectionStartedAt: null,
   journal: [],
   deferredInstallPrompt: null,
+  waitingServiceWorker: null,
+  serviceWorkerRegistration: null,
+  isRefreshingForUpdate: false,
   trustAccepted: false
 };
 
@@ -382,9 +389,10 @@ function bindEvents() {
   if (els.guidedWrite) els.guidedWrite.addEventListener('click', focusTextInput);
   if (els.pathwayCards) {
     els.pathwayCards.forEach((button) => {
-      button.addEventListener('click', () => startResonancePath(button.dataset.pathway));
+      button.addEventListener('click', () => selectResonancePath(button.dataset.pathway, true));
     });
   }
+  if (els.pathwayStart) els.pathwayStart.addEventListener('click', () => startResonancePath(state.activePathway || 'calm'));
   if (els.dockReset) els.dockReset.addEventListener('click', () => { tryVibrate(12); startHeroReset(); });
   if (els.dockPaths) els.dockPaths.addEventListener('click', showPathways);
   if (els.dockSpeak) els.dockSpeak.addEventListener('click', () => { tryVibrate(16); focusTextInput(); });
@@ -415,6 +423,8 @@ function bindEvents() {
     els.installButton.hidden = false;
   });
   els.installButton.addEventListener('click', installPwa);
+  if (els.updateNow) els.updateNow.addEventListener('click', installAppUpdate);
+  if (els.updateLater) els.updateLater.addEventListener('click', hideUpdateNotice);
   window.addEventListener('resize', resizeVisuals);
   els.player.addEventListener('play', () => setVisualMode('Resonara spricht …', 'speaking'));
   els.player.addEventListener('ended', () => setVisualMode('Bereit', 'idle'));
@@ -469,7 +479,7 @@ function showTrustGate(focus = true) {
 function hideTrustGate(focusCoach = false) {
   els.trustGate.hidden = true;
   document.body.dataset.consent = 'accepted';
-  if (focusCoach) setTimeout(() => els.textInput.focus(), 160);
+  if (focusCoach) setTimeout(() => focusWithoutJump(els.textInput), 160);
 }
 
 function ensureTrustAccepted() {
@@ -484,11 +494,37 @@ function tryVibrate(pattern = 10) {
   }
 }
 
+function isMostlyVisible(element, margin = 96) {
+  if (!element) return true;
+  const rect = element.getBoundingClientRect();
+  const height = window.innerHeight || document.documentElement.clientHeight || 0;
+  const topLimit = margin;
+  const bottomLimit = height - Math.max(margin, 96);
+  return rect.top >= topLimit && Math.min(rect.bottom, rect.top + 180) <= bottomLimit;
+}
+
+function gentleReveal(element, options = {}) {
+  if (!element) return;
+  const { block = 'nearest', margin = 112, force = false } = options;
+  if (!force && isMostlyVisible(element, margin)) return;
+  element.scrollIntoView({
+    behavior: visual.prefersReducedMotion ? 'auto' : 'smooth',
+    block,
+    inline: 'nearest'
+  });
+}
+
+function focusWithoutJump(element) {
+  if (!element) return;
+  try { element.focus({ preventScroll: true }); }
+  catch { element.focus(); }
+}
+
 function showStartChoices() {
   if (!ensureTrustAccepted()) return;
   tryVibrate(8);
   const target = document.querySelector('#startGuide') || document.querySelector('.hero-card');
-  if (target) target.scrollIntoView({ behavior: visual.prefersReducedMotion ? 'auto' : 'smooth', block: 'start' });
+  gentleReveal(target, { block: 'start', margin: 80 });
   updateCoachGuide(1);
 }
 
@@ -496,8 +532,8 @@ function focusTextInput() {
   if (!ensureTrustAccepted()) return;
   tryVibrate(8);
   const target = document.querySelector('#coach') || els.textForm;
-  if (target) target.scrollIntoView({ behavior: visual.prefersReducedMotion ? 'auto' : 'smooth', block: 'start' });
-  window.setTimeout(() => els.textInput.focus({ preventScroll: true }), 220);
+  gentleReveal(target, { block: 'start', margin: 84 });
+  window.setTimeout(() => focusWithoutJump(els.textInput), 220);
   updateCoachGuide(3);
 }
 
@@ -506,8 +542,17 @@ function showPathways() {
   if (!ensureTrustAccepted()) return;
   tryVibrate(8);
   if (els.resonancePaths) {
-    els.resonancePaths.scrollIntoView({ behavior: visual.prefersReducedMotion ? 'auto' : 'smooth', block: 'start' });
+    gentleReveal(els.resonancePaths, { block: 'start', margin: 88 });
   }
+}
+
+function selectResonancePath(id, fromUser = false) {
+  if (!ensureTrustAccepted()) return;
+  const nextId = resonancePathways[id] ? id : 'calm';
+  state.activePathway = nextId;
+  localStorage.setItem(storageKeys.activePathway, state.activePathway);
+  renderPathwayUi(state.activePathway);
+  if (fromUser) tryVibrate(6);
 }
 
 function startResonancePath(id) {
@@ -515,7 +560,7 @@ function startResonancePath(id) {
   const path = resonancePathways[id] || resonancePathways.calm;
   const exercise = { id: path.exercise, ...exercises[path.exercise] };
   if (!exercise.title) return;
-  state.activePathway = id || 'calm';
+  state.activePathway = resonancePathways[id] ? id : 'calm';
   state.checkin = { ...state.checkin, ...path.checkin };
   state.activeExerciseId = path.exercise;
   state.exerciseStepIndex = 0;
@@ -530,15 +575,15 @@ function startResonancePath(id) {
   updateCoachGuide(2);
   appendMessage('user', path.userLine);
   const reply = [
-    `Du hast „${path.title}“ gewählt.`,
+    `Wir starten mit „${path.title}“.`,
     path.opening,
-    `Wir starten mit „${exercise.title}“. Folge Schritt 1 im Übungsfeld.`,
-    'Danach tippe einfach auf „Nächster Schritt“.'
+    `Dein erster Schritt steht im Übungsfeld: „${exercise.title}“.`,
+    'Bleib nur beim aktuellen Schritt. Resonara führt dich weiter.'
   ].join('\n');
   appendMessage('assistant', reply);
   speakText(reply, 'ok');
   const target = els.exercisePanel && !els.exercisePanel.hidden ? els.exercisePanel : document.querySelector('#coach');
-  window.setTimeout(() => target?.scrollIntoView({ behavior: visual.prefersReducedMotion ? 'auto' : 'smooth', block: 'center' }), 120);
+  window.setTimeout(() => gentleReveal(target, { block: 'nearest', margin: 138 }), 120);
 }
 
 function renderPathwayUi(activeId = 'calm') {
@@ -557,12 +602,12 @@ function renderPathwayUi(activeId = 'calm') {
 function startGuidedFlow() {
   if (!ensureTrustAccepted()) return;
   tryVibrate(10);
-  const target = document.querySelector('#checkinTitle') || document.querySelector('.checkin');
-  if (target) target.scrollIntoView({ behavior: visual.prefersReducedMotion ? 'auto' : 'smooth', block: 'start' });
+  const target = document.querySelector('.checkin') || document.querySelector('#checkinTitle');
+  gentleReveal(target, { block: 'start', margin: 88 });
   updateCoachGuide(1);
   window.setTimeout(() => {
     const activeChip = document.querySelector('.chip.active');
-    if (activeChip) activeChip.focus({ preventScroll: true });
+    if (activeChip) focusWithoutJump(activeChip);
   }, 180);
 }
 
@@ -575,7 +620,7 @@ function startHeroReset() {
 function focusCheckin() {
   if (!ensureTrustAccepted()) return;
   tryVibrate(8);
-  document.querySelector('#checkinTitle').scrollIntoView({ behavior: visual.prefersReducedMotion ? 'auto' : 'smooth', block: 'start' });
+  gentleReveal(document.querySelector('.checkin') || document.querySelector('#checkinTitle'), { block: 'start', margin: 88 });
   updateCoachGuide(1);
 }
 
@@ -691,7 +736,7 @@ async function startRecording() {
   saveSettings(false);
   if (!getServerUrl()) {
     setSettingsOpen(true);
-    els.settingsToggle.scrollIntoView({ behavior: visual.prefersReducedMotion ? 'auto' : 'smooth', block: 'center' });
+    gentleReveal(els.settingsToggle, { block: 'center', margin: 120 });
     toastSystem('Du kannst sofort schreiben. Wenn du sprechen möchtest, aktiviere zuerst deine Stimme.');
     return;
   }
@@ -888,9 +933,6 @@ function buildCoachTurn(text, source = 'text') {
 function applyBrowserTurn(turn) {
   appendMessage(turn.role || 'assistant', turn.reply);
   updateMetrics();
-  if (turn.exercise && els.exercisePanel) {
-    window.setTimeout(() => els.exercisePanel.scrollIntoView({ behavior: visual.prefersReducedMotion ? 'auto' : 'smooth', block: 'center' }), 80);
-  }
 }
 
 function selectExercise(text, source) {
@@ -943,7 +985,7 @@ function runNextStep() {
     ].join('\n');
     appendMessage('assistant', reply);
     speakText(reply, 'ok');
-    if (els.reflectionPanel) els.reflectionPanel.scrollIntoView({ behavior: visual.prefersReducedMotion ? 'auto' : 'smooth', block: 'center' });
+    gentleReveal(els.reflectionPanel, { block: 'nearest', margin: 132 });
     return;
   }
   state.exerciseStepIndex = nextIndex;
@@ -1604,8 +1646,65 @@ function installPwa() {
   els.installButton.hidden = true;
 }
 
-function registerServiceWorker() {
-  if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js').catch(() => {});
+function showUpdateNotice(worker) {
+  state.waitingServiceWorker = worker || state.waitingServiceWorker;
+  if (!els.updateNotice) return;
+  els.updateNotice.hidden = false;
+  els.updateNotice.classList.add('is-visible');
+  setConnectionStatus('Neue Version bereit');
+}
+
+function hideUpdateNotice() {
+  if (!els.updateNotice) return;
+  els.updateNotice.classList.remove('is-visible');
+  window.setTimeout(() => { els.updateNotice.hidden = true; }, 220);
+}
+
+function installAppUpdate() {
+  if (state.waitingServiceWorker) {
+    state.waitingServiceWorker.postMessage({ type: 'SKIP_WAITING' });
+    if (els.updateNow) els.updateNow.textContent = 'Wird installiert …';
+    return;
+  }
+  if (state.serviceWorkerRegistration) {
+    state.serviceWorkerRegistration.update().then(() => window.location.reload()).catch(() => window.location.reload());
+    return;
+  }
+  window.location.reload();
+}
+
+async function registerServiceWorker() {
+  if (!('serviceWorker' in navigator)) return;
+  try {
+    const registration = await navigator.serviceWorker.register('./sw.js');
+    state.serviceWorkerRegistration = registration;
+
+    if (registration.waiting && navigator.serviceWorker.controller) {
+      showUpdateNotice(registration.waiting);
+    }
+
+    registration.addEventListener('updatefound', () => {
+      const installingWorker = registration.installing;
+      if (!installingWorker) return;
+      installingWorker.addEventListener('statechange', () => {
+        if (installingWorker.state === 'installed' && navigator.serviceWorker.controller) {
+          showUpdateNotice(installingWorker);
+        }
+      });
+    });
+
+    navigator.serviceWorker.addEventListener('controllerchange', () => {
+      if (state.isRefreshingForUpdate) return;
+      state.isRefreshingForUpdate = true;
+      window.location.reload();
+    });
+
+    window.setTimeout(() => registration.update().catch(() => {}), 2400);
+    window.addEventListener('focus', () => registration.update().catch(() => {}));
+    window.setInterval(() => registration.update().catch(() => {}), 30 * 60 * 1000);
+  } catch (_) {
+    // Die App funktioniert auch ohne Offline-Aktualisierung.
+  }
 }
 
 init();

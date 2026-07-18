@@ -1,4 +1,5 @@
-const CACHE_NAME = 'resonara-customer-v14-resonance-paths';
+const CACHE_NAME = 'resonara-customer-v15-smooth-update';
+const APP_VERSION = '2026.07.18-smooth-update';
 const APP_SHELL = [
   './',
   './index.html',
@@ -15,9 +16,7 @@ const APP_SHELL = [
 ];
 
 self.addEventListener('install', (event) => {
-  event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => cache.addAll(APP_SHELL)).then(() => self.skipWaiting())
-  );
+  event.waitUntil(caches.open(CACHE_NAME).then((cache) => cache.addAll(APP_SHELL)));
 });
 
 self.addEventListener('activate', (event) => {
@@ -26,6 +25,16 @@ self.addEventListener('activate', (event) => {
       .then((keys) => Promise.all(keys.filter((key) => key !== CACHE_NAME).map((key) => caches.delete(key))))
       .then(() => self.clients.claim())
   );
+});
+
+self.addEventListener('message', (event) => {
+  if (event.data && event.data.type === 'SKIP_WAITING') {
+    self.skipWaiting();
+    return;
+  }
+  if (event.data && event.data.type === 'GET_VERSION' && event.ports && event.ports[0]) {
+    event.ports[0].postMessage({ version: APP_VERSION, cache: CACHE_NAME });
+  }
 });
 
 self.addEventListener('fetch', (event) => {

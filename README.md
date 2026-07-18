@@ -186,3 +186,8 @@ Die App enthält jetzt einen kundenfreundlichen Szenario-Bereich mit vier gefüh
 ## Bonusfeature: Resonanzwege
 
 Die Web-App enthält vier kundentaugliche Einstiege: Sofort runterkommen, Klarheit sammeln, Spannung entladen und Sanft abschalten. Jeder Weg stellt Check-in und Übung passend ein und führt direkt zum ersten Schritt. Für deine Präsentation steht eine kurze Übersicht in `SHOWCASE_OPTIONS.md`.
+
+
+## Update-Hinweis für Kunden
+
+Die Web-App erkennt neue Versionen über den Service Worker. Wenn eine neue Version verfügbar ist, erscheint unten ein Hinweis mit „Neue Version installieren“. Die App lädt danach einmal neu; lokale Resonanz-Einträge bleiben erhalten.
