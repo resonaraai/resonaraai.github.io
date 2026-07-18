@@ -171,3 +171,18 @@ Diese Version nutzt die öffentlich eingebundenen Resonara-Bilder aus `resonaraa
 - `resonara-og.png` als Social-/Installations-Preview
 
 Die Farb- und Kartenlogik ist an die public Landingpage angelehnt: dunkler Grund, violett/teal Gradient, transparente Cards und kompakte runde CTAs.
+
+
+## Usability
+
+Die Datei `USABILITY_REVIEW.md` beschreibt die wichtigsten Vereinfachungen für eine breite Endkundenbasis.
+
+
+## Bonusfeature: Resonara Momente
+
+Die App enthält jetzt einen kundenfreundlichen Szenario-Bereich mit vier geführten Momenten: akut runterkommen, Gedanken sortieren, nach Konflikt entladen und abends runterfahren. Jeder Moment setzt Check-in, Intensität und Übung passend vor, damit mehrere Produktmöglichkeiten in einer Demo direkt sichtbar werden.
+
+
+## Bonusfeature: Resonanzwege
+
+Die Web-App enthält vier kundentaugliche Einstiege: Sofort runterkommen, Klarheit sammeln, Spannung entladen und Sanft abschalten. Jeder Weg stellt Check-in und Übung passend ein und führt direkt zum ersten Schritt. Für deine Präsentation steht eine kurze Übersicht in `SHOWCASE_OPTIONS.md`.

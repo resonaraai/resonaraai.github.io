@@ -1,4 +1,4 @@
-name: Deploy Resonara PWA
+name: Deploy Resonara App
 
 on:
   push:
@@ -24,7 +24,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 22
-      - name: Validate static PWA
+      - name: Validate static app
         run: npm test
 
   deploy:

@@ -7,6 +7,15 @@ const els = {
   trustDataCheck: document.querySelector('#trustDataCheck'),
   trustCrisisCheck: document.querySelector('#trustCrisisCheck'),
   heroStart: document.querySelector('#heroStart'),
+  guidedStart: document.querySelector('#guidedStart'),
+  guidedCheckin: document.querySelector('#guidedCheckin'),
+  guidedWrite: document.querySelector('#guidedWrite'),
+  resonancePaths: document.querySelector('#resonancePaths'),
+  pathwayNote: document.querySelector('#pathwayNote'),
+  pathwayCards: document.querySelectorAll('[data-pathway]'),
+  dockReset: document.querySelector('#dockReset'),
+  dockPaths: document.querySelector('#dockPaths'),
+  dockSpeak: document.querySelector('#dockSpeak'),
   revisitTrust: document.querySelector('#revisitTrust'),
   serverUrl: document.querySelector('#serverUrl'),
   apiToken: document.querySelector('#apiToken'),
@@ -30,7 +39,9 @@ const els = {
   exercisePanel: document.querySelector('#exercisePanel'),
   exerciseTitle: document.querySelector('#exerciseTitle'),
   exerciseReason: document.querySelector('#exerciseReason'),
+  exerciseProgress: document.querySelector('#exerciseProgress'),
   exerciseSteps: document.querySelector('#exerciseSteps'),
+  nextStep: document.querySelector('#nextStep'),
   recordButton: document.querySelector('#recordButton'),
   recordLabel: document.querySelector('#recordLabel'),
   recordStatus: document.querySelector('#recordStatus'),
@@ -62,7 +73,17 @@ const els = {
   breathPhase: document.querySelector('#breathPhase'),
   stabilityIndex: document.querySelector('#stabilityIndex'),
   sessionTempo: document.querySelector('#sessionTempo'),
-  privacyGauge: document.querySelector('#privacyGauge')
+  privacyGauge: document.querySelector('#privacyGauge'),
+  reflectionPanel: document.querySelector('#reflectionPanel'),
+  reflectionBefore: document.querySelector('#reflectionBefore'),
+  reflectionAfterValue: document.querySelector('#reflectionAfterValue'),
+  reflectionPrompt: document.querySelector('#reflectionPrompt'),
+  afterIntensity: document.querySelector('#afterIntensity'),
+  reflectionNote: document.querySelector('#reflectionNote'),
+  saveReflection: document.querySelector('#saveReflection'),
+  skipReflection: document.querySelector('#skipReflection'),
+  journalList: document.querySelector('#journalList'),
+  journalHint: document.querySelector('#journalHint')
 };
 
 const storageKeys = {
@@ -73,16 +94,57 @@ const storageKeys = {
   useServerTts: 'resonara.useServerTts',
   useBrowserTts: 'resonara.useBrowserTts',
   trustAccepted: 'resonara.trustAccepted',
+  consentVersion: 'resonara.consentVersion',
+  consentAt: 'resonara.consentAt',
   history: 'resonara.history',
   checkin: 'resonara.checkin',
-  activeExercise: 'resonara.activeExercise'
+  activeExercise: 'resonara.activeExercise',
+  activePathway: 'resonara.activePathway',
+  journal: 'resonara.journal'
 };
+
+const CONSENT_VERSION = '2026-07-resonance-paths-v6';
 
 const defaultCheckin = {
   emotion: 'stress',
   intensity: 6,
   bodyFocus: 'Brust',
   sessionGoal: 'runterregeln'
+};
+
+const resonancePathways = {
+  calm: {
+    title: 'Sofort runterkommen',
+    exercise: 'breath-46',
+    checkin: { emotion: 'stress', intensity: 6, bodyFocus: 'Brust', sessionGoal: 'runterregeln' },
+    note: 'Vorauswahl: Stress 6/10, Brust, 4-6 Atemanker. Du kannst alles danach ändern.',
+    userLine: 'Ich brauche gerade einen kurzen Reset.',
+    opening: 'Wir nehmen Tempo raus. Du musst nichts erklären – nur den ersten Atemzug finden.'
+  },
+  clarity: {
+    title: 'Klarheit sammeln',
+    exercise: 'pre-meeting-anchor',
+    checkin: { emotion: 'unklar', intensity: 5, bodyFocus: 'Hals', sessionGoal: 'klarheit' },
+    note: 'Vorauswahl: Unklarheit 5/10, Hals, Klarheitsanker. Gut vor Gesprächen oder Entscheidungen.',
+    userLine: 'Ich möchte vor einem Gespräch ruhiger und klarer werden.',
+    opening: 'Wir sortieren nur den nächsten Satz. Nicht die ganze Situation.'
+  },
+  release: {
+    title: 'Spannung entladen',
+    exercise: 'boundary-sort',
+    checkin: { emotion: 'wut', intensity: 7, bodyFocus: 'Schultern', sessionGoal: 'klarheit' },
+    note: 'Vorauswahl: Wut 7/10, Schultern, Grenze sortieren. Gut nach Konflikt, Kritik oder Druck.',
+    userLine: 'Nach einem Konflikt ist noch Druck in mir.',
+    opening: 'Wir lassen die Energie dosiert aus dem Körper und sortieren erst danach den nächsten Schritt.'
+  },
+  sleep: {
+    title: 'Sanft abschalten',
+    exercise: 'evening-release',
+    checkin: { emotion: 'ueberforderung', intensity: 4, bodyFocus: 'ganzer Körper', sessionGoal: 'einschlafen' },
+    note: 'Vorauswahl: Überforderung 4/10, ganzer Körper, Abend-Ausklang. Für Grübeln und Erschöpfung.',
+    userLine: 'Ich möchte den Tag leiser machen und langsam abschalten.',
+    opening: 'Wir lösen heute nichts mehr. Dein System darf ein kleines Stück weicher werden.'
+  }
 };
 
 const state = {
@@ -94,6 +156,11 @@ const state = {
   history: [],
   checkin: { ...defaultCheckin },
   activeExerciseId: null,
+  activePathway: 'calm',
+  exerciseStepIndex: 0,
+  reflectionBeforeIntensity: defaultCheckin.intensity,
+  reflectionStartedAt: null,
+  journal: [],
   deferredInstallPrompt: null,
   trustAccepted: false
 };
@@ -199,6 +266,39 @@ const exercises = {
       'Sag dir: Für diesen Moment muss ich nichts lösen.'
     ]
   },
+  'pre-meeting-anchor': {
+    title: 'Klarheitsanker',
+    reason: 'Vor Gesprächen hilft ein kurzer Körperanker und ein einfacher nächster Satz.',
+    tags: ['klarheit', 'mut', 'angst', 'unklar'],
+    steps: [
+      'Spüre beide Füße und lass den Blick kurz im Raum ankommen.',
+      'Benennen: Was ist mir in diesem Gespräch wirklich wichtig?',
+      'Formuliere einen ersten Satz, der ruhig und kurz ist.',
+      'Atme einmal länger aus und nimm nur diesen ersten Satz mit.'
+    ]
+  },
+  'boundary-sort': {
+    title: 'Grenze sortieren',
+    reason: 'Nach Konflikt hilft es, Körperdruck zu senken und Verantwortung zu trennen.',
+    tags: ['wut', 'klarheit', 'runterregeln'],
+    steps: [
+      'Drücke beide Füße 5 Sekunden in den Boden und löse wieder.',
+      'Sag innerlich: Das ist mein Anteil. Das ist der Anteil der anderen Person.',
+      'Lege eine Hand auf Brust oder Bauch und frage: Welche Grenze braucht Schutz?',
+      'Wähle einen kleinen nächsten Schritt: Abstand, Gespräch, Notiz oder Pause.'
+    ]
+  },
+  'evening-release': {
+    title: 'Abend-Ausklang',
+    reason: 'Am Abend ist weniger Analyse oft hilfreicher als noch mehr Nachdenken.',
+    tags: ['einschlafen', 'traurigkeit', 'ueberforderung', 'stress'],
+    steps: [
+      'Lege das Gerät für einen Moment etwas tiefer oder entspanne die Hände.',
+      'Sag innerlich: Für heute muss ich das nicht fertig lösen.',
+      'Spüre Stirn, Kiefer, Schultern und Bauch jeweils einen Atemzug lang.',
+      'Wähle ein leises Ende: Licht dimmen, Wasser trinken oder drei langsame Atemzüge.'
+    ]
+  },
   'session-close': {
     title: 'Mini-Abschluss',
     reason: 'Ein kleiner Abschluss hilft, die Regulation in den Alltag mitzunehmen.',
@@ -211,6 +311,8 @@ const exercises = {
     ]
   }
 };
+
+
 
 const emotionLabels = {
   stress: 'Stress',
@@ -251,7 +353,9 @@ function init() {
   loadSettings();
   loadCheckin();
   state.history = safeParse(localStorage.getItem(storageKeys.history), []);
+  state.journal = safeParse(localStorage.getItem(storageKeys.journal), []);
   state.activeExerciseId = localStorage.getItem(storageKeys.activeExercise) || null;
+  state.activePathway = localStorage.getItem(storageKeys.activePathway) || 'calm';
   bindEvents();
   initSplash();
   renderCheckin();
@@ -259,6 +363,9 @@ function init() {
   initTrustGate();
   if (state.trustAccepted) addInitialMessage();
   renderExercise();
+  renderJournal();
+  renderPathwayUi(state.activePathway || 'calm');
+  updateReflectionPanel(false);
   updateMetrics();
   registerServiceWorker();
   setConnectionStatus('Bereit');
@@ -269,7 +376,18 @@ function bindEvents() {
   els.saveSettings.addEventListener('click', () => saveSettings(true));
   els.trustForm.addEventListener('submit', acceptTrustGate);
   [els.trustAiCheck, els.trustDataCheck, els.trustCrisisCheck].forEach((input) => input.addEventListener('change', updateTrustCta));
-  els.heroStart.addEventListener('click', startHeroReset);
+  els.heroStart.addEventListener('click', showStartChoices);
+  if (els.guidedStart) els.guidedStart.addEventListener('click', startHeroReset);
+  if (els.guidedCheckin) els.guidedCheckin.addEventListener('click', startGuidedFlow);
+  if (els.guidedWrite) els.guidedWrite.addEventListener('click', focusTextInput);
+  if (els.pathwayCards) {
+    els.pathwayCards.forEach((button) => {
+      button.addEventListener('click', () => startResonancePath(button.dataset.pathway));
+    });
+  }
+  if (els.dockReset) els.dockReset.addEventListener('click', () => { tryVibrate(12); startHeroReset(); });
+  if (els.dockPaths) els.dockPaths.addEventListener('click', showPathways);
+  if (els.dockSpeak) els.dockSpeak.addEventListener('click', () => { tryVibrate(16); focusTextInput(); });
   els.revisitTrust.addEventListener('click', showTrustGate);
   els.testConnection.addEventListener('click', testConnection);
   els.settingsToggle.addEventListener('click', toggleSettings);
@@ -277,7 +395,11 @@ function bindEvents() {
   els.clearSession.addEventListener('click', clearSession);
   els.copySummary.addEventListener('click', copySummary);
   els.textForm.addEventListener('submit', submitText);
-  els.suggestExercise.addEventListener('click', () => runBrowserCoach('Ich möchte einen 2-Minuten-Reset starten.', 'suggest'));
+  els.suggestExercise.addEventListener('click', startHeroReset);
+  if (els.nextStep) els.nextStep.addEventListener('click', runNextStep);
+  if (els.afterIntensity) els.afterIntensity.addEventListener('input', handleAfterIntensity);
+  if (els.saveReflection) els.saveReflection.addEventListener('click', saveReflection);
+  if (els.skipReflection) els.skipReflection.addEventListener('click', () => updateReflectionPanel(false));
   els.exportSession.addEventListener('click', exportSession);
   els.resetLocalData.addEventListener('click', resetLocalData);
   els.intensity.addEventListener('input', handleIntensity);
@@ -313,7 +435,7 @@ function initSplash() {
 }
 
 function initTrustGate() {
-  state.trustAccepted = localStorage.getItem(storageKeys.trustAccepted) === 'true';
+  state.trustAccepted = localStorage.getItem(storageKeys.trustAccepted) === 'true' && localStorage.getItem(storageKeys.consentVersion) === CONSENT_VERSION;
   if (state.trustAccepted) hideTrustGate(false);
   else showTrustGate(false);
   updateTrustCta();
@@ -330,12 +452,12 @@ function acceptTrustGate(event) {
   if (els.acceptTrust.disabled) return;
   state.trustAccepted = true;
   localStorage.setItem(storageKeys.trustAccepted, 'true');
-  hideTrustGate(true);
+  localStorage.setItem(storageKeys.consentVersion, CONSENT_VERSION);
+  localStorage.setItem(storageKeys.consentAt, new Date().toISOString());
+  hideTrustGate(false);
   addInitialMessage();
-  document.querySelector('#coach').scrollIntoView({ behavior: visual.prefersReducedMotion ? 'auto' : 'smooth', block: 'start' });
-  setTimeout(() => {
-    if (!state.history.some((item) => item.role === 'user')) runBrowserCoach('Ich möchte mit einem 2-Minuten-Reset beginnen.', 'suggest');
-  }, visual.prefersReducedMotion ? 0 : 360);
+  showStartChoices();
+  updateCoachGuide(1);
 }
 
 function showTrustGate(focus = true) {
@@ -356,10 +478,105 @@ function ensureTrustAccepted() {
   return false;
 }
 
-function startHeroReset() {
+function tryVibrate(pattern = 10) {
+  if ('vibrate' in navigator && !visual.prefersReducedMotion) {
+    try { navigator.vibrate(pattern); } catch (_) {}
+  }
+}
+
+function showStartChoices() {
   if (!ensureTrustAccepted()) return;
-  document.querySelector('#coach').scrollIntoView({ behavior: visual.prefersReducedMotion ? 'auto' : 'smooth', block: 'start' });
-  runBrowserCoach('Ich möchte einen 2-Minuten-Reset starten.', 'suggest');
+  tryVibrate(8);
+  const target = document.querySelector('#startGuide') || document.querySelector('.hero-card');
+  if (target) target.scrollIntoView({ behavior: visual.prefersReducedMotion ? 'auto' : 'smooth', block: 'start' });
+  updateCoachGuide(1);
+}
+
+function focusTextInput() {
+  if (!ensureTrustAccepted()) return;
+  tryVibrate(8);
+  const target = document.querySelector('#coach') || els.textForm;
+  if (target) target.scrollIntoView({ behavior: visual.prefersReducedMotion ? 'auto' : 'smooth', block: 'start' });
+  window.setTimeout(() => els.textInput.focus({ preventScroll: true }), 220);
+  updateCoachGuide(3);
+}
+
+
+function showPathways() {
+  if (!ensureTrustAccepted()) return;
+  tryVibrate(8);
+  if (els.resonancePaths) {
+    els.resonancePaths.scrollIntoView({ behavior: visual.prefersReducedMotion ? 'auto' : 'smooth', block: 'start' });
+  }
+}
+
+function startResonancePath(id) {
+  if (!ensureTrustAccepted()) return;
+  const path = resonancePathways[id] || resonancePathways.calm;
+  const exercise = { id: path.exercise, ...exercises[path.exercise] };
+  if (!exercise.title) return;
+  state.activePathway = id || 'calm';
+  state.checkin = { ...state.checkin, ...path.checkin };
+  state.activeExerciseId = path.exercise;
+  state.exerciseStepIndex = 0;
+  captureReflectionStart();
+  persistCheckin();
+  persistActiveExercise();
+  localStorage.setItem(storageKeys.activePathway, state.activePathway);
+  renderCheckin();
+  renderPathwayUi(state.activePathway);
+  renderExercise(exercise);
+  updateReflectionPanel(false);
+  updateCoachGuide(2);
+  appendMessage('user', path.userLine);
+  const reply = [
+    `Du hast „${path.title}“ gewählt.`,
+    path.opening,
+    `Wir starten mit „${exercise.title}“. Folge Schritt 1 im Übungsfeld.`,
+    'Danach tippe einfach auf „Nächster Schritt“.'
+  ].join('\n');
+  appendMessage('assistant', reply);
+  speakText(reply, 'ok');
+  const target = els.exercisePanel && !els.exercisePanel.hidden ? els.exercisePanel : document.querySelector('#coach');
+  window.setTimeout(() => target?.scrollIntoView({ behavior: visual.prefersReducedMotion ? 'auto' : 'smooth', block: 'center' }), 120);
+}
+
+function renderPathwayUi(activeId = 'calm') {
+  const path = resonancePathways[activeId] || resonancePathways.calm;
+  if (els.pathwayNote) els.pathwayNote.textContent = path.note;
+  if (els.pathwayCards) {
+    els.pathwayCards.forEach((button) => {
+      const isActive = button.dataset.pathway === activeId;
+      button.classList.toggle('is-active', isActive);
+      button.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+    });
+  }
+  document.body.dataset.pathway = activeId;
+}
+
+function startGuidedFlow() {
+  if (!ensureTrustAccepted()) return;
+  tryVibrate(10);
+  const target = document.querySelector('#checkinTitle') || document.querySelector('.checkin');
+  if (target) target.scrollIntoView({ behavior: visual.prefersReducedMotion ? 'auto' : 'smooth', block: 'start' });
+  updateCoachGuide(1);
+  window.setTimeout(() => {
+    const activeChip = document.querySelector('.chip.active');
+    if (activeChip) activeChip.focus({ preventScroll: true });
+  }, 180);
+}
+
+
+
+function startHeroReset() {
+  startResonancePath('calm');
+}
+
+function focusCheckin() {
+  if (!ensureTrustAccepted()) return;
+  tryVibrate(8);
+  document.querySelector('#checkinTitle').scrollIntoView({ behavior: visual.prefersReducedMotion ? 'auto' : 'smooth', block: 'start' });
+  updateCoachGuide(1);
 }
 
 function loadSettings() {
@@ -387,16 +604,16 @@ function saveSettings(showToast = true) {
   localStorage.setItem(storageKeys.processingMode, els.processingMode.value);
   localStorage.setItem(storageKeys.useServerTts, String(els.useServerTts.checked));
   localStorage.setItem(storageKeys.useBrowserTts, String(els.useBrowserTts.checked));
-  setConnectionStatus(normalizedUrl ? 'Stimme vorbereitet' : 'Stimme optional');
-  if (showToast) toastSystem('Stimme gespeichert. Dein Verlauf bleibt auf diesem Gerät.');
+  setConnectionStatus(normalizedUrl ? 'Stimme bereit' : 'Stimme optional');
+  if (showToast) toastSystem('Stimme ist bereit. Dein Verlauf bleibt auf diesem Gerät.');
 }
 
 async function testConnection() {
   saveSettings(false);
   const serverUrl = getServerUrl();
   if (!serverUrl) {
-    setConnectionStatus('Sprachlink fehlt', false);
-    toastSystem('Bitte trage zuerst deinen Sprachlink ein. Schreiben funktioniert auch ohne Stimme.');
+    setConnectionStatus('Stimme noch nicht bereit', false);
+    toastSystem('Bitte füge zuerst deine Sprachfreigabe ein. Schreiben funktioniert auch ohne Stimme.');
     return;
   }
   setConnectionStatus('Teste …', null);
@@ -405,7 +622,7 @@ async function testConnection() {
     const deps = data.dependencies || {};
     const hasStt = deps.ffmpeg && deps.whisper_cpp_bin && deps.whisper_model;
     const hasTts = deps.piper_bin && deps.piper_model;
-    setConnectionStatus(hasStt ? `Verbunden${hasTts ? '' : ', Stimme fehlt'}` : 'Unvollständig', hasStt);
+    setConnectionStatus(hasStt ? `Stimme bereit${hasTts ? '' : ', Antwortstimme fehlt'}` : 'Noch nicht bereit', hasStt);
     const missing = Object.entries(deps).filter(([name, ok]) => name !== 'legacy_llm_enabled' && !ok).map(([name]) => name);
     if (missing.length) toastSystem('Die Sprachfunktion ist erreichbar, aber noch nicht vollständig eingerichtet.');
   } catch (error) {
@@ -475,7 +692,7 @@ async function startRecording() {
   if (!getServerUrl()) {
     setSettingsOpen(true);
     els.settingsToggle.scrollIntoView({ behavior: visual.prefersReducedMotion ? 'auto' : 'smooth', block: 'center' });
-    toastSystem('Sprache ist noch nicht eingerichtet. Du kannst sofort schreiben – oder hier deinen Sprachlink speichern.');
+    toastSystem('Du kannst sofort schreiben. Wenn du sprechen möchtest, aktiviere zuerst deine Stimme.');
     return;
   }
   if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
@@ -515,7 +732,7 @@ function stopRecording() {
   state.isRecording = false;
   els.recordButton.classList.remove('recording');
   els.recordButton.setAttribute('aria-pressed', 'false');
-  els.recordLabel.textContent = 'Sprechen starten';
+  els.recordLabel.textContent = 'Lieber sprechen';
   els.recordStatus.textContent = 'Ich bereite deine Worte vor …';
   setVisualMode('Deine Worte werden vorbereitet …', 'busy');
 }
@@ -600,10 +817,10 @@ async function submitText(event) {
 
 async function sendLegacyTextTurn(message) {
   if (!getServerUrl()) {
-    toastSystem('Bitte zuerst deinen Sprachlink speichern oder direkt schreiben.');
+    toastSystem('Bitte zuerst deine Sprachfreigabe speichern oder direkt schreiben.');
     return;
   }
-  setBusy(true, 'Antwort wird vorbereitet …');
+  setBusy(true, 'Resonara bereitet eine Antwort vor …');
   try {
     const data = await postJson('/api/text-turn', { message, history: state.history.slice(-6) });
     if (data.transcript) appendMessage('user', data.transcript);
@@ -621,14 +838,19 @@ function runQuickExercise(id) {
   if (id === 'session-close') {
     const reply = buildClosingReply();
     state.activeExerciseId = id;
+    captureReflectionStart();
     persistActiveExercise();
     renderExercise();
+    updateReflectionPanel(true);
     appendMessage('assistant', reply);
     speakText(reply, 'ok');
     return;
   }
+  if (!exercises[id]) return;
   const exercise = { id, ...exercises[id] };
   state.activeExerciseId = id;
+  state.exerciseStepIndex = 0;
+  captureReflectionStart();
   persistActiveExercise();
   renderExercise(exercise);
   const reply = composeReply({ exercise, source: 'quick' });
@@ -656,6 +878,8 @@ function buildCoachTurn(text, source = 'text') {
   }
   const exercise = selectExercise(clean, source);
   state.activeExerciseId = exercise.id;
+  state.exerciseStepIndex = 0;
+  captureReflectionStart();
   persistActiveExercise();
   renderExercise(exercise);
   return { reply: composeReply({ exercise, text: clean, source }), role: 'assistant', safetyStatus: 'ok', exercise };
@@ -664,6 +888,9 @@ function buildCoachTurn(text, source = 'text') {
 function applyBrowserTurn(turn) {
   appendMessage(turn.role || 'assistant', turn.reply);
   updateMetrics();
+  if (turn.exercise && els.exercisePanel) {
+    window.setTimeout(() => els.exercisePanel.scrollIntoView({ behavior: visual.prefersReducedMotion ? 'auto' : 'smooth', block: 'center' }), 80);
+  }
 }
 
 function selectExercise(text, source) {
@@ -686,28 +913,58 @@ function composeReply({ exercise, text, source }) {
   const intensity = Number(state.checkin.intensity);
   const body = state.checkin.bodyFocus;
   const opening = source === 'suggest'
-    ? `Ich bin Resonara, eine KI-Begleitung. Wir starten einen kurzen Reset für ${emotion} bei ${intensity}/10.`
-    : `Ich nehme aus deinem Check-in mit: ${emotion} bei etwa ${intensity}/10, besonders im Bereich ${body}.`;
-  const reflection = text && text.length > 12 && source !== 'suggest'
-    ? 'Du musst das gerade nicht fertig erklären. Wir geben deinem Nervensystem zuerst eine klare, kleine Aufgabe.'
-    : 'Wir machen es klein, langsam und machbar.';
-  const steps = exercise.steps.slice(0, 3).map((step, index) => `${index + 1}. ${step}`);
+    ? `Okay. Wir starten mit ${emotion}, ${intensity}/10.`
+    : `Ich nehme dich wahr: ${emotion}, ${intensity}/10, spürbar bei ${body}.`;
+  state.exerciseStepIndex = 0;
+  updateCoachGuide(2);
   return [
     opening,
-    reflection,
-    `Übung: ${exercise.title}. ${exercise.reason}`,
-    ...steps,
-    'Danach gib dir eine neue Zahl von 0 bis 10. Wenn es schlimmer wird, stoppe und such dir menschliche Unterstützung.'
+    `Resonara schlägt jetzt „${exercise.title}“ vor.`,
+    'Folge nur Schritt 1 im Übungsfeld. Danach tippe auf „Nächster Schritt“.'
   ].join('\n');
+}
+
+function runNextStep() {
+  if (!ensureTrustAccepted()) return;
+  if (!state.activeExerciseId || !exercises[state.activeExerciseId]) {
+    runBrowserCoach('Ich möchte einen 2-Minuten-Reset starten.', 'suggest');
+    return;
+  }
+  const exercise = { id: state.activeExerciseId, ...exercises[state.activeExerciseId] };
+  const nextIndex = Math.min((state.exerciseStepIndex || 0) + 1, exercise.steps.length);
+  if (nextIndex >= exercise.steps.length) {
+    state.exerciseStepIndex = exercise.steps.length - 1;
+    renderExercise(exercise);
+    updateCoachGuide(4);
+    updateReflectionPanel(true);
+    const reply = [
+      'Gut. Das reicht für diesen Moment.',
+      'Schätze dich jetzt neu ein: Welche Zahl passt gerade?'
+    ].join('\n');
+    appendMessage('assistant', reply);
+    speakText(reply, 'ok');
+    if (els.reflectionPanel) els.reflectionPanel.scrollIntoView({ behavior: visual.prefersReducedMotion ? 'auto' : 'smooth', block: 'center' });
+    return;
+  }
+  state.exerciseStepIndex = nextIndex;
+  renderExercise(exercise);
+  updateCoachGuide(3);
+  const reply = [
+    `Jetzt Schritt ${nextIndex + 1}.`,
+    nextIndex === exercise.steps.length - 1
+      ? 'Danach schätzen wir neu ein.'
+      : 'Wenn du bereit bist, tippe wieder auf „Nächster Schritt“. '
+  ].join('\n');
+  appendMessage('assistant', reply.trim());
+  speakText(reply, 'ok');
 }
 
 function buildClosingReply() {
   const summary = buildSessionSummary();
   return [
-    'Lass uns die Session klein abschließen.',
-    'Nenne eine Sache, die minimal leichter, klarer oder ruhiger geworden ist.',
-    'Wähle dann einen nächsten Schritt, der in zwei Minuten machbar ist.',
-    `Lokale Kurznotiz: ${summary.oneLine}`
+    'Lass uns sanft abschließen.',
+    'Was ist jetzt minimal anders – ruhiger, klarer oder einfach nur benannt?',
+    `Kurznotiz: ${summary.oneLine}`
   ].join('\n');
 }
 
@@ -739,19 +996,33 @@ function renderExercise(exercise = null) {
   const selected = exercise || (state.activeExerciseId ? { id: state.activeExerciseId, ...exercises[state.activeExerciseId] } : null);
   if (!selected || !selected.title) {
     els.exercisePanel.hidden = true;
+    if (els.exerciseProgress) els.exerciseProgress.textContent = '';
     updateBreathCard(null);
+    updateCoachGuide(1);
     return;
   }
+  const current = Math.min(Math.max(Number(state.exerciseStepIndex) || 0, 0), selected.steps.length - 1);
   els.exercisePanel.hidden = false;
   els.exerciseTitle.textContent = selected.title;
   els.exerciseReason.textContent = selected.reason;
+  if (els.exerciseProgress) els.exerciseProgress.textContent = `Schritt ${current + 1} von ${selected.steps.length}`;
   els.exerciseSteps.innerHTML = '';
-  selected.steps.forEach((step) => {
+  selected.steps.forEach((step, index) => {
     const li = document.createElement('li');
     li.textContent = step;
+    if (index < current) li.classList.add('is-done');
+    if (index === current) li.classList.add('is-active');
     els.exerciseSteps.appendChild(li);
   });
   updateBreathCard(selected);
+}
+
+function updateCoachGuide(activeStep = 1) {
+  document.querySelectorAll('.coach-step').forEach((step, index) => {
+    const number = index + 1;
+    step.classList.toggle('is-current', number === activeStep);
+    step.classList.toggle('is-done', number < activeStep);
+  });
 }
 
 function persistActiveExercise() {
@@ -775,6 +1046,119 @@ async function speakText(text, safetyStatus = 'ok') {
   if (els.useBrowserTts.checked) browserSpeak(clean);
 }
 
+function captureReflectionStart() {
+  state.reflectionBeforeIntensity = Number(state.checkin.intensity) || 0;
+  state.reflectionStartedAt = new Date().toISOString();
+  if (els.afterIntensity) els.afterIntensity.value = String(state.reflectionBeforeIntensity);
+  updateReflectionPanel(false);
+}
+
+function handleAfterIntensity() {
+  const value = Number(els.afterIntensity && els.afterIntensity.value) || 0;
+  if (els.reflectionAfterValue) els.reflectionAfterValue.textContent = String(value);
+  document.documentElement.style.setProperty('--reflection-now', `${Math.max(0, Math.min(100, value * 10))}%`);
+  updateReflectionPrompt(value);
+}
+
+function updateReflectionPanel(show = null) {
+  if (!els.reflectionPanel) return;
+  const hasExercise = Boolean(state.activeExerciseId);
+  const shouldShow = show === null ? hasExercise : Boolean(show && hasExercise);
+  els.reflectionPanel.hidden = !shouldShow;
+  const before = Number.isFinite(state.reflectionBeforeIntensity) ? state.reflectionBeforeIntensity : Number(state.checkin.intensity) || 0;
+  if (els.reflectionBefore) els.reflectionBefore.textContent = String(before);
+  if (els.afterIntensity && !els.afterIntensity.value) els.afterIntensity.value = String(Number(state.checkin.intensity) || before);
+  handleAfterIntensity();
+}
+
+function updateReflectionPrompt(afterValue) {
+  if (!els.reflectionPrompt) return;
+  const before = Number.isFinite(state.reflectionBeforeIntensity) ? state.reflectionBeforeIntensity : Number(state.checkin.intensity) || 0;
+  const delta = before - afterValue;
+  if (delta > 0) {
+    els.reflectionPrompt.textContent = `Vorher ${before}/10, jetzt ${afterValue}/10. Nimm den kleinen Unterschied wahr – ohne ihn festhalten zu müssen.`;
+  } else if (delta < 0) {
+    els.reflectionPrompt.textContent = `Vorher ${before}/10, jetzt ${afterValue}/10. Gut, dass du es bemerkst. Mach langsamer und hol dir Unterstützung, wenn es zu viel wird.`;
+  } else {
+    els.reflectionPrompt.textContent = `Vorher ${before}/10, jetzt ${afterValue}/10. Auch stabil bleiben ist eine Information.`;
+  }
+}
+
+function saveReflection() {
+  if (!ensureTrustAccepted()) return;
+  const before = Number.isFinite(state.reflectionBeforeIntensity) ? state.reflectionBeforeIntensity : Number(state.checkin.intensity) || 0;
+  const after = Number(els.afterIntensity && els.afterIntensity.value);
+  if (!Number.isFinite(after) || after < 0 || after > 10) return;
+  const note = els.reflectionNote ? els.reflectionNote.value.trim() : '';
+  const exerciseTitle = state.activeExerciseId && exercises[state.activeExerciseId] ? exercises[state.activeExerciseId].title : 'Abschluss';
+  const entry = {
+    at: new Date().toISOString(),
+    emotion: state.checkin.emotion,
+    bodyFocus: state.checkin.bodyFocus,
+    goal: state.checkin.sessionGoal,
+    exercise: exerciseTitle,
+    before,
+    after,
+    delta: before - after,
+    note
+  };
+  state.journal.unshift(entry);
+  state.journal = state.journal.slice(0, 18);
+  localStorage.setItem(storageKeys.journal, JSON.stringify(state.journal));
+  state.checkin.intensity = after;
+  persistCheckin();
+  renderCheckin();
+  renderJournal();
+  updateMetrics();
+  updateCoachGuide(4);
+  if (els.reflectionNote) els.reflectionNote.value = '';
+  const reply = buildReflectionSavedReply(entry);
+  appendMessage('assistant', reply);
+  speakText(reply, entry.delta < 0 ? 'caution' : 'ok');
+  updateReflectionPanel(false);
+}
+
+function buildReflectionSavedReply(entry) {
+  const direction = entry.delta > 0
+    ? `von ${entry.before}/10 auf ${entry.after}/10 – ein Stück ruhiger.`
+    : entry.delta < 0
+      ? `von ${entry.before}/10 auf ${entry.after}/10 – gerade eher stärker.`
+      : `bei ${entry.after}/10 – stabil genug für diesen Moment.`;
+  const next = entry.delta < 0
+    ? 'Mach jetzt kleiner: beide Füße spüren, einmal lang ausatmen, und hol dir menschliche Unterstützung, wenn es kippt.'
+    : 'Nimm eine kleine Sache mit: Was hat dir eben am meisten geholfen?';
+  return [`Gespeichert: ${direction}`, next].join('\n');
+}
+
+function renderJournal() {
+  if (!els.journalList) return;
+  els.journalList.innerHTML = '';
+  if (!Array.isArray(state.journal) || state.journal.length === 0) {
+    const empty = document.createElement('p');
+    empty.className = 'journal-empty';
+    empty.textContent = 'Noch kein Eintrag. Nach dem ersten Reset kannst du deinen Vorher/Nachher-Moment speichern.';
+    els.journalList.appendChild(empty);
+    return;
+  }
+  for (const entry of state.journal.slice(0, 5)) {
+    const item = document.createElement('article');
+    item.className = 'journal-entry';
+    const delta = Number(entry.delta) || 0;
+    item.classList.toggle('is-softer', delta > 0);
+    item.classList.toggle('is-harder', delta < 0);
+    const when = new Date(entry.at);
+    const dateText = Number.isNaN(when.getTime()) ? 'gerade' : when.toLocaleString('de-DE', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' });
+    const emotion = emotionLabels[entry.emotion] || 'Gefühl';
+    const movement = delta > 0 ? `-${Math.abs(delta)}` : delta < 0 ? `+${Math.abs(delta)}` : '0';
+    item.innerHTML = '<div class="journal-entry-main"><strong></strong><span></span><p></p></div><div class="journal-delta"></div>';
+    item.querySelector('strong').textContent = `${emotion} · ${entry.exercise || 'Übung'}`;
+    item.querySelector('span').textContent = `${dateText} · ${entry.before}/10 → ${entry.after}/10`;
+    item.querySelector('p').textContent = entry.note || `Fokus: ${entry.bodyFocus || 'Körper'}`;
+    item.querySelector('.journal-delta').textContent = movement;
+    els.journalList.appendChild(item);
+  }
+}
+
 function browserSpeak(text) {
   if (!('speechSynthesis' in window)) return;
   const utterance = new SpeechSynthesisUtterance(text.replace(/\n+/g, ' '));
@@ -796,6 +1180,7 @@ function playAudio(base64, mime) {
 }
 
 function appendMessage(role, text) {
+  tryVibrate(role === 'assistant' ? 8 : 4);
   const normalized = String(text || '').trim();
   if (!normalized) return;
   state.history.push({
@@ -826,7 +1211,7 @@ function renderHistory() {
 
 function addInitialMessage() {
   if (!state.trustAccepted || state.history.length > 0) return;
-  appendMessage('assistant', 'Willkommen bei Resonara. Ich bin eine KI-Begleitung für kurze Selbstregulation – kein Mensch und keine Therapie. Wähle dein Gefühl und deine Intensität, oder schreibe einfach einen Satz. Wenn du bereit bist, starten wir ruhig mit einem 2-Minuten-Reset.');
+  appendMessage('assistant', 'Schön, dass du da bist. Ich bin Resonara – eine KI-Begleitung.\n\nDu kannst direkt mit einem 2-Minuten-Reset starten oder zuerst Gefühl und Zahl wählen. Ein kleiner Schritt reicht.');
 }
 
 function toastSystem(text) {
@@ -838,25 +1223,31 @@ function clearSession() {
   state.activeExerciseId = null;
   localStorage.removeItem(storageKeys.history);
   localStorage.removeItem(storageKeys.activeExercise);
+  localStorage.removeItem(storageKeys.activePathway);
   els.player.hidden = true;
   els.player.removeAttribute('src');
   renderHistory();
   renderExercise();
+  updateReflectionPanel(false);
   if (state.trustAccepted) addInitialMessage();
   updateMetrics();
 }
 
 function resetLocalData() {
-  const ok = window.confirm('Alle lokalen Resonara-Daten auf diesem Gerät löschen? Gespeicherte Sprachdaten werden ebenfalls gelöscht.');
+  const ok = window.confirm('Alle lokalen Resonara-Daten auf diesem Gerät löschen? Gespeicherte Sprachfreigaben werden ebenfalls gelöscht.');
   if (!ok) return;
   Object.values(storageKeys).forEach((key) => localStorage.removeItem(key));
   state.history = [];
+  state.journal = [];
   state.checkin = { ...defaultCheckin };
   state.activeExerciseId = null;
   loadSettings();
   renderCheckin();
   renderHistory();
   renderExercise();
+  renderJournal();
+  renderPathwayUi(state.activePathway || 'calm');
+  updateReflectionPanel(false);
   state.trustAccepted = false;
   updateMetrics();
   setConnectionStatus('Bereit');
@@ -891,6 +1282,7 @@ function buildSessionSummary() {
     oneLine,
     last_user: lastUser ? lastUser.content : '',
     last_reply: lastAssistant ? lastAssistant.content : '',
+    journal: state.journal.slice(0, 12),
     history: state.history
   };
 }
@@ -1106,6 +1498,10 @@ function drawTimeline() {
 }
 
 function getTimelineValues() {
+  const journalValues = Array.isArray(state.journal)
+    ? [...state.journal].reverse().flatMap((entry) => [Number(entry.before), Number(entry.after)]).filter((value) => Number.isFinite(value))
+    : [];
+  if (journalValues.length) return journalValues.slice(-18);
   const values = state.history.filter((item) => item.role === 'user' || item.role === 'assistant').slice(-18).map((item) => Number(item.checkin && item.checkin.intensity)).filter((value) => Number.isFinite(value));
   if (!values.length) return [Number(state.checkin.intensity)]; return values;
 }
